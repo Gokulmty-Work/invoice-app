@@ -10,7 +10,7 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: '/dashboard',
+        redirectTo: '/authentication/login',
         pathMatch: 'full',
       },
       {
@@ -46,6 +46,11 @@ const routes: Routes = [
     path: '',
     component: BlankComponent,
     children: [
+      {
+        path: '',
+        redirectTo: '/authentication/login',
+        pathMatch: 'full',
+      },
       {
         path: 'authentication',
         loadChildren: () =>
