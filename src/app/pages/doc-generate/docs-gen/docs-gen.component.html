@@ -1,0 +1,47 @@
+          <mat-card class="card-class">
+          <table class="mat-table" mat-table [dataSource]="dataSource">
+            <ng-container matColumnDef="select">
+              <th mat-header-cell *matHeaderCellDef></th>
+              <td mat-cell *matCellDef="let row">
+                <mat-checkbox [(ngModel)]="row.selected"></mat-checkbox>
+              </td>
+            </ng-container>
+            
+            <ng-container matColumnDef="name">
+              <th mat-header-cell *matHeaderCellDef>Document Name</th>
+              <td mat-cell *matCellDef="let row">{{row.name}}</td>
+            </ng-container>
+            
+            <ng-container matColumnDef="upload">
+              <th mat-header-cell *matHeaderCellDef>Upload File</th>
+              <td mat-cell *matCellDef="let row">
+                <button mat-raised-button color="primary" [disabled]="!row.selected" (click)="fileInput.click()">Upload</button>
+                <input type="file" #fileInput (change)="handleFileInput($event, row)" style="display: none;">
+              </td>
+            </ng-container>
+            
+            <ng-container matColumnDef="uploadedFile">
+              <th mat-header-cell *matHeaderCellDef>Uploaded File</th>
+              <td mat-cell *matCellDef="let row">{{row.uploadedFile}}</td>
+            </ng-container>
+            
+            <ng-container matColumnDef="status">
+              <th mat-header-cell *matHeaderCellDef>Status</th>
+              <td mat-cell *matCellDef="let row">
+                <mat-icon *ngIf="row.status && row.uploadedFile && row.processedStatus !== 'Error'" class="success-icon">check_circle</mat-icon>
+                <mat-icon *ngIf="!row.status && row.uploadedFile" class="error-icon">cancel</mat-icon>
+                <mat-icon *ngIf="row.status && row.uploadedFile && row.processedStatus === 'Error'" class="warning-icon">warning</mat-icon>
+              </td>
+            </ng-container>
+          
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+        </mat-card>
+
+          <mat-card class="warning-card">
+            <mat-card-content>
+              <mat-icon class="warning-icon">info</mat-icon>
+              There is an issue with the Document-1 that is uploaded. Please check or reupload the File.
+            </mat-card-content>
+          </mat-card>

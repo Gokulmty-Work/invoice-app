@@ -1,0 +1,190 @@
+<!-- ============================================================== -->
+<!-- Simple four boxes Row -->
+<!-- ============================================================== -->
+<mat-card class="cardWithShadow">
+    <mat-card-content>
+      <!-- <mat-card-title>Sample Page</mat-card-title>
+      <mat-card-subtitle class="mat-body-1">This is test page</mat-card-subtitle> -->
+
+      <mat-accordion class="example-headers-align">
+        <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" hideToggle>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Upload Files
+            </mat-panel-title>
+            <mat-panel-description>
+              Upload Files to process
+              <!-- <mat-icon>account_circle</mat-icon> -->
+              <!-- <i-tabler class="d-flex" name="files"></i-tabler> -->
+              <span class="material-icons">attach_file</span>
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <mat-divider></mat-divider>
+
+          <!-- <mat-form-field>
+            <mat-label>First name</mat-label>
+            <input matInput>
+          </mat-form-field> -->
+      
+          <!-- <mat-form-field>
+            <mat-label>Age</mat-label>
+            <input matInput type="number" min="1">
+          </mat-form-field> -->
+          <mat-card class="card-class">
+          <table class="mat-table" mat-table [dataSource]="dataSource">
+            <ng-container matColumnDef="select">
+              <th mat-header-cell *matHeaderCellDef></th>
+              <td mat-cell *matCellDef="let row">
+                <mat-checkbox [(ngModel)]="row.selected"></mat-checkbox>
+              </td>
+            </ng-container>
+            
+            <ng-container matColumnDef="name">
+              <th mat-header-cell *matHeaderCellDef>Document Name</th>
+              <td mat-cell *matCellDef="let row">{{row.name}}</td>
+            </ng-container>
+            
+            <ng-container matColumnDef="upload">
+              <th mat-header-cell *matHeaderCellDef>Upload File</th>
+              <td mat-cell *matCellDef="let row">
+                <button mat-raised-button color="primary" [disabled]="!row.selected" (click)="fileInput.click()">Upload</button>
+                <input type="file" #fileInput (change)="handleFileInput($event, row)" style="display: none;">
+              </td>
+            </ng-container>
+            
+            <ng-container matColumnDef="uploadedFile">
+              <th mat-header-cell *matHeaderCellDef>Uploaded File</th>
+              <td mat-cell *matCellDef="let row">{{row.uploadedFile}}</td>
+            </ng-container>
+            
+            <ng-container matColumnDef="status">
+              <th mat-header-cell *matHeaderCellDef>Status</th>
+              <td mat-cell *matCellDef="let row">
+                <mat-icon *ngIf="row.status && row.uploadedFile && row.processedStatus !== 'Error'" class="success-icon">check_circle</mat-icon>
+                <mat-icon *ngIf="!row.status && row.uploadedFile" class="error-icon">cancel</mat-icon>
+                <mat-icon *ngIf="row.status && row.uploadedFile && row.processedStatus === 'Error'" class="warning-icon">warning</mat-icon>
+              </td>
+            </ng-container>
+          
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+        </mat-card>
+
+          <mat-card class="warning-card">
+            <mat-card-content>
+              <mat-icon class="warning-icon">info</mat-icon>
+              There is an issue with the Document-1 that is uploaded. Please check or reupload the File.
+            </mat-card-content>
+          </mat-card>
+          
+          <mat-action-row>
+            <button mat-button color="primary" (click)="nextStep()">Process Files</button>
+          </mat-action-row>
+          <mat-progress-bar *ngIf="isProcessing" mode="indeterminate"></mat-progress-bar>
+        </mat-expansion-panel>
+      
+        <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)" hideToggle [disabled]="isFormPanelDisabled">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Check Form
+            </mat-panel-title>
+            <mat-panel-description>
+              Check the Form before File Generation
+              <mat-icon>description</mat-icon>
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+      
+          <!-- <mat-form-field>
+            <mat-label>Country</mat-label>
+            <input matInput>
+          </mat-form-field> -->
+
+          <mat-card class="card-class">
+            <form class="form-container" [formGroup]="myForm">
+              <mat-form-field appearance="outline" class="half-width form-first">
+                <mat-label>Seller Name</mat-label>
+                <input matInput placeholder="Enter Seller Name" formControlName="sellerName">
+              </mat-form-field>
+              <mat-form-field appearance="outline" class="half-width form-first">
+                <mat-label>Buyer Name</mat-label>
+                <input matInput placeholder="Enter Buyer Name" formControlName="buyerName">
+              </mat-form-field>
+              <mat-form-field appearance="outline" class="half-width">
+                <mat-label>Seller Address</mat-label>
+                <textarea matInput placeholder="Enter Seller Address" formControlName="sellerAddress"></textarea>
+              </mat-form-field>
+              <mat-form-field appearance="outline" class="half-width">
+                <mat-label>Buyer Address</mat-label>
+                <textarea matInput placeholder="Enter Buyer Address" formControlName="buyerAddress"></textarea>
+              </mat-form-field>
+              <mat-form-field appearance="outline" class="half-width">
+                <mat-label>Property Value</mat-label>
+                <input matInput type="number" placeholder="Enter Property Value" formControlName="propertyValue">
+              </mat-form-field>
+              <mat-form-field appearance="outline" class="half-width">
+                <mat-label>Mortgage Type</mat-label>
+                <mat-select placeholder="Mortgage Type" formControlName="mortgageType">
+                  <mat-option value="Fixed">Fixed</mat-option>
+                  <mat-option value="Variable">Variable</mat-option>
+                </mat-select>
+              </mat-form-field>
+              <mat-form-field appearance="outline" class="half-width">
+                <mat-label>Payment Type</mat-label>
+                <mat-select placeholder="Payment Type" formControlName="paymentType">
+                  <mat-option value="Cash">Cash</mat-option>
+                  <mat-option value="Mortgage">Mortgage</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </form>
+          </mat-card>
+      
+          <mat-action-row>
+            <button mat-button color="warn" (click)="prevStep()">Upload Files</button>
+            <button mat-button color="primary" (click)="nextStep()">Generate File</button>
+          </mat-action-row>
+        </mat-expansion-panel>
+      
+        <mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)" hideToggle [disabled]="isDownloadPanelDisabled">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              File Generation
+            </mat-panel-title>
+            <mat-panel-description>
+              Generated File based on the Inputs
+              <mat-icon>play_for_work</mat-icon>
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <mat-card class="card-class">
+            <mat-card class="download-card">
+              <mat-card-content>
+                <div class="details">
+                  <div class="title">Your File is ready for download</div>
+                  <div class="description">File Name: Example.pdf</div>
+                  <div class="description">Size: 2.5 MB</div>
+                  <div class="description">Format: PDF</div>
+                </div>
+              </mat-card-content>
+            </mat-card>
+            <button mat-button class="download-button" (click)="downloadFile()">
+              Download
+              <mat-icon class="dowload-icon">cloud_download</mat-icon>
+            </button>
+          </mat-card>
+          <!-- <mat-form-field>
+            <mat-label>Date</mat-label>
+            <input matInput [matDatepicker]="picker" (focus)="picker.open()" readonly>
+          </mat-form-field> -->
+          <mat-datepicker #picker></mat-datepicker>
+      
+          <mat-action-row>
+            <button mat-button color="warn" (click)="prevStep()">To Edit Form</button>
+            <button mat-button color="primary" (click)="nextStep()">New Upload</button>
+          </mat-action-row>
+        </mat-expansion-panel>
+      
+      </mat-accordion>
+      
+    </mat-card-content>
+  </mat-card>
+  

@@ -1,0 +1,56 @@
+<mat-card class="cardWithShadow">
+    <mat-card-title class="profile-title">User Profile</mat-card-title>
+  <mat-divider class="divider-header"></mat-divider>
+      <mat-card-content>
+        <div class="container">
+            <div class="details-container">
+                <mat-card class="details-card">
+                    <mat-card-title class="profile-title" >User Details</mat-card-title>
+  <mat-divider class="divider-header"></mat-divider>
+                    
+                    <mat-card-content>
+                        <mat-form-field appearance="fill">
+                            <mat-label>Name</mat-label>
+                            <input matInput placeholder="Username" value="John Doe" required>
+                          </mat-form-field>
+                          <mat-form-field appearance="fill">
+                            <mat-label>E-mail</mat-label>
+                            <input matInput type="email" placeholder="email" value="John@gmail.com" required>
+                          </mat-form-field>
+                    <button mat-raised-button color="primary" type="submit">Update  </button>
+
+                    </mat-card-content> 
+                  </mat-card>
+            </div>
+            <div class="details-container">
+                <mat-card class="details-card">
+                    <mat-card-title class="profile-title">Login Details</mat-card-title>
+  <mat-divider class="divider-header"></mat-divider>
+
+                    <mat-card-content>
+                <form class="user-form">
+                    <mat-form-field appearance="fill">
+                      <mat-label>Username</mat-label>
+                      <input matInput placeholder="Username" value="admin" required>
+                    </mat-form-field>
+                    <mat-form-field appearance="fill">
+                        <mat-label>Old Password</mat-label>
+                        <input matInput type="password" placeholder="Old Password" required>
+                      </mat-form-field>
+                    <mat-form-field appearance="fill">
+                      <mat-label>Password</mat-label>
+                      <input matInput type="password" placeholder="Password" required>
+                    </mat-form-field>
+                    <mat-form-field appearance="fill">
+                      <mat-label>Confirm Password</mat-label>
+                      <input matInput type="password" placeholder="Confirm Password" required>
+                    </mat-form-field>
+                    <button mat-raised-button color="primary" type="submit">Update Password</button>
+                  </form>
+                </mat-card-content>
+                  </mat-card>
+            </div>
+          </div>
+        
+      </mat-card-content>
+</mat-card>

@@ -1,0 +1,68 @@
+
+  .profile-title {
+    align-self: center;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    font-size: x-large;
+  }
+  .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 20px;
+    // background-color: #f0f0f0;
+    height: 100vh;
+  }
+  
+  .details-container, .form-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .details-container {
+    margin-right: 20px;
+  }
+  
+  .form-container {
+    margin-left: 20px;
+  }
+
+  .details-card {
+    width: 50%;
+  }
+  
+  .user-form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  mat-form-field {
+    width: 100%;
+    margin-bottom: 16px;
+  }
+
+  .divider-header {
+    padding-bottom: 1rem;
+  }
+
+  .half-width {
+    margin-left: 8px;
+    width: calc(47% - 10px);
+  }
+
+  .update-button {
+    width: max-content;
+    align-self: center;
+  }
+
+  .card-class{
+    border: 1px solid #f0f8ff;
+  }
+
+  .form-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+  }

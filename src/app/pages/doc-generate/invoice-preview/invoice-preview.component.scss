@@ -1,0 +1,28 @@
+.preview-card {
+    align-items: center;
+}
+
+mat-card-content {
+    padding-left: 120px;
+    font-size: x-small !important;
+}
+
+.back-button-style {
+    margin-bottom: 1rem;
+  }
+
+  .print-button-style {
+    margin-top: 1rem;
+    margin-bottom: 2rem !important;
+    margin-left: 11rem;
+  } 
+
+@media print {
+    .preview-card {
+        align-items: center;
+        margin-left: 20px;
+    }
+    .back-button-style, .print-button-style{
+        display: none;
+    }
+}

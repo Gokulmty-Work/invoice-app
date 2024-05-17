@@ -1,0 +1,16 @@
+<mat-card class="card-class">
+            <mat-card class="download-card">
+              <mat-card-content>
+                <div class="details">
+                  <div class="title">Your File is ready for download</div>
+                  <div class="description">File Name: Example.pdf</div>
+                  <div class="description">Size: 2.5 MB</div>
+                  <div class="description">Format: PDF</div>
+                </div>
+              </mat-card-content>
+            </mat-card>
+            <button mat-button class="download-button" (click)="downloadFile()">
+              Download
+              <mat-icon class="dowload-icon">cloud_download</mat-icon>
+            </button>
+          </mat-card>
