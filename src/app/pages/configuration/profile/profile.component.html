@@ -1,7 +1,121 @@
 <mat-card class="cardWithShadow">
     <mat-card-title class="profile-title">User Profile</mat-card-title>
   <mat-divider class="divider-header"></mat-divider>
-      <mat-card-content>
+  <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="center" [selectedIndex]="selectedTabIndex">
+    <mat-tab label="User Details">
+      <div class="details-container">
+        <mat-card class="details-card">
+            <mat-card-title class="profile-title" >User Details</mat-card-title>
+<mat-divider class="divider-header"></mat-divider>
+            
+            <mat-card-content>
+              <div class="avatar-container">
+                <div class="image-container" *ngIf="file; else placeholder"
+                [ngClass]="{'box-shadow-avatar': !!file}"
+                [ngStyle]="{backgroundImage: 'url(' + file + ')'}">
+                </div>
+            
+                <ng-template #placeholder>
+                    <div class="image-container avatar-placeholder">
+                    </div>
+                </ng-template>
+            
+                <label for="avatar-input-file">
+                    <div class="icon-wrapper">
+                        <input type="file" id="avatar-input-file" accept="image/*" (change)="onFileChange($event)" />
+                        <mat-icon class="icon" fontIcon="edit"></mat-icon>
+                    </div>
+                </label>
+            
+            </div>
+            <mat-divider class="divider-header"></mat-divider>
+            <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+                <mat-form-field appearance="fill">
+                    <mat-label>Name</mat-label>
+                    <input matInput placeholder="Username" formControlName="name" required>
+                    <mat-error *ngIf="userForm.get('name')?.hasError('required')">Name is required</mat-error>
+                  </mat-form-field>
+                  <mat-form-field appearance="fill">
+                    <mat-label>E-mail</mat-label>
+                    <input matInput type="email" placeholder="email" formControlName="email" required>
+                    <mat-error *ngIf="userForm.get('email')?.hasError('required')">Email is required</mat-error>
+                    <mat-error *ngIf="userForm.get('email')?.hasError('email')">Invalid email format</mat-error>
+                  </mat-form-field>
+                  <div class="center-button">
+                    <button mat-raised-button color="primary" type="submit" (click)="openSnackBar('User Data Updated', 'Dismiss')" [disabled]="userForm.invalid">Update</button>
+                  </div>
+                </form>
+            </mat-card-content> 
+          </mat-card>
+    </div>
+    </mat-tab>
+    <mat-tab label="Change Password">
+      <div class="details-container">
+        <mat-card class="details-card">
+            <mat-card-title class="profile-title">Change Password</mat-card-title>
+<mat-divider class="divider-header"></mat-divider>
+
+            <mat-card-content>
+        <form class="user-form">
+            <mat-form-field appearance="fill">
+              <mat-label>email Id</mat-label>
+              <input matInput placeholder="emailId" value="admin@admin.com" required>
+            </mat-form-field>
+            <mat-form-field appearance="fill">
+                <mat-label>Old Password</mat-label>
+                <input matInput type="password" placeholder="Old Password" required>
+              </mat-form-field>
+            <mat-form-field appearance="fill">
+              <mat-label>Password</mat-label>
+              <input matInput type="password" placeholder="New Password" required>
+            </mat-form-field>
+            <mat-form-field appearance="fill">
+              <mat-label>Confirm Password</mat-label>
+              <input matInput type="password" placeholder="Confirm Password" required>
+            </mat-form-field>
+            <div class="center-button">
+              <button mat-raised-button color="primary" type="submit" (click)="openSnackBar('Password Updated', 'Dismiss')">Update Password</button>
+            </div>
+          </form>
+        </mat-card-content>
+          </mat-card>
+    </div>
+    </mat-tab>
+    <mat-tab label="Create New User">
+      <div class="details-container">
+        <mat-card class="details-card">
+            <mat-card-title class="profile-title">New User</mat-card-title>
+<mat-divider class="divider-header"></mat-divider>
+
+            <mat-card-content>
+        <form class="user-form" [formGroup]="createUserForm" (ngSubmit)="createNewUser()">
+          <mat-form-field appearance="fill">
+            <mat-label>User email Id</mat-label>
+            <input matInput placeholder="New email Id" formControlName="email" required>
+            <mat-error *ngIf="createUserForm.get('email')?.hasError('required')">Email is required</mat-error>
+            <mat-error *ngIf="createUserForm.get('email')?.hasError('email')">Invalid email</mat-error>
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>Password</mat-label>
+            <input matInput type="password" placeholder="Password" formControlName="password" required>
+            <mat-error *ngIf="createUserForm.get('password')?.hasError('required')">Password is required</mat-error>
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>Confirm Password</mat-label>
+            <input matInput type="password" placeholder="Confirm Password" formControlName="confirmPassword" required>
+            <mat-error *ngIf="createUserForm.get('confirmPassword')?.hasError('required')">Confirm Password is required</mat-error>
+          </mat-form-field>
+            <mat-error class="mismatch-error" *ngIf="createUserForm?.errors?.['notmatched']">Passwords do not match</mat-error>
+          <div class="center-button">
+            <button mat-raised-button color="primary" type="submit" [disabled]="createUserForm.invalid">Create New User</button>
+          </div>
+          </form>
+        </mat-card-content>
+          </mat-card>
+    </div>
+    </mat-tab>
+  </mat-tab-group>
+      <!-- <mat-card-content>
         <div class="container">
             <div class="details-container">
                 <mat-card class="details-card">
@@ -52,5 +166,5 @@
             </div>
           </div>
         
-      </mat-card-content>
+      </mat-card-content> -->
 </mat-card>

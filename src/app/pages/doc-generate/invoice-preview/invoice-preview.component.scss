@@ -1,6 +1,9 @@
 .preview-card {
     align-items: center;
 }
+.print-sheet{
+    display: none;
+}
 
 mat-card-content {
     padding-left: 120px;
@@ -17,12 +20,61 @@ mat-card-content {
     margin-left: 11rem;
   } 
 
+  .invoice-address-container {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .invoice-address-label {
+    margin: 0;
+    font-size: 16px;
+    font-family: "Times New Roman", serif;
+    width: 50%; /* Adjust as needed */
+  }
+  
+  .invoice-address {
+    margin: 0;
+    margin-bottom: .0001pt;
+    font-size: 16px;
+    font-family: "Times New Roman", serif;
+    width: 50%; /* Adjust as needed */
+  }
+
+  .invoice-address-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-left: -96px;
+  }
+  
+  .invoice-address-table td {
+    border: none;
+    padding: 0;
+    vertical-align: top;
+    width: 8rem;
+  }
+  
+  
+
 @media print {
     .preview-card {
         align-items: center;
         margin-left: 20px;
+        display: none;
     }
     .back-button-style, .print-button-style{
         display: none;
     }
+    .print-sheet{
+        display: block;
+    }
+
+    body {
+        overflow: hidden;
+        overflow-x: hidden
+      }
+    
+      /* Optionally, hide scrollbar on specific containers */
+      .no-print-scrollbar {
+        overflow: hidden;
+      }
 }

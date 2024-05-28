@@ -6,6 +6,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { AuthServiceService } from 'src/app/pages/authentication/services/auth-service.service';
 
 
 @Component({
@@ -28,6 +29,10 @@ export class HeaderComponent {
     {id:3, name:'Config', url:'/configure/config'}
   ];
 
-  constructor(public dialog: MatDialog) {}
+  constructor(public dialog: MatDialog, private authService: AuthServiceService) {}
+
+  logoutUser(){
+    this.authService.logOut();
+  }
 
 }

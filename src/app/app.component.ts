@@ -1,9 +1,16 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { AuthServiceService } from './pages/authentication/services/auth-service.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'Spike Angular Admin Tempplate';
+
+  constructor(private authService: AuthServiceService){}
+
+  ngOnInit(): void {
+    this.authService.initUserData();
+  }
 }
