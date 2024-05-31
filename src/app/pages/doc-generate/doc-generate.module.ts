@@ -13,6 +13,7 @@ import { GenFileDownloadComponent } from './gen-file-download/gen-file-download.
 import { NumbersOnlyDirective } from './directives/numbers-only.directive';
 import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
 import { InvoicePreviewComponent } from './invoice-preview/invoice-preview.component';
+import { SnackbarComponent } from './snackbar/snackbar.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { InvoicePreviewComponent } from './invoice-preview/invoice-preview.compo
     GenFileDownloadComponent,
     NumbersOnlyDirective,
     ConfirmationDialogComponent,
-    InvoicePreviewComponent
+    InvoicePreviewComponent,
+    SnackbarComponent
   ],
   imports: [
     CommonModule,

@@ -24,8 +24,12 @@ export const DocGenerateRoutes: Routes = [
         component: UploadDocsComponent,
         // canDeactivate: [UnSavedChangesGuard]
       },
+      { 
+        path: 'add-new/:id', 
+        component: UploadDocsComponent 
+      },
       {
-        path: 'invoice-preview',
+        path: 'invoice-preview/:id',
         component: InvoicePreviewComponent,
       },
     //   {

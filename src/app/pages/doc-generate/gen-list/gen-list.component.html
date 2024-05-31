@@ -7,6 +7,20 @@
               <input matInput (keyup)="applyFilter($event)" placeholder="Search Here">
                 <mat-icon matSuffix>search</mat-icon>
             </mat-form-field>
+
+            <mat-form-field class="date-form-field" appearance="outline">
+              <mat-label>Filter Date</mat-label>
+              <mat-date-range-input
+                [formGroup]="campaignOne"
+                [rangePicker]="picker"
+                >
+                <input matStartDate placeholder="Start date" formControlName="start">
+                <input matEndDate (dateChange)="onDateRangeChange()" placeholder="End date" formControlName="end">
+              </mat-date-range-input>
+              <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+              <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-date-range-picker #picker></mat-date-range-picker>
+            </mat-form-field>
           </div>
 
           <button mat-raised-button [routerLink]="['/home/add-new']" color="primary" class="new-button">
@@ -63,7 +77,13 @@
             <ng-container matColumnDef="fileDownload">
               <th mat-header-cell *matHeaderCellDef class="download-column"> Actions </th>
               <td mat-cell *matCellDef="let element" class="table-style">
-                <button mat-icon-button [routerLink]="['/home/invoice-preview']">
+                <button mat-icon-button [routerLink]="['/home/add-new/1']">
+                  <mat-icon class="icon-success">edit</mat-icon>
+                </button>
+                <button mat-icon-button (click)="deleteRecord(element)">
+                  <mat-icon class="icon-success">delete</mat-icon>
+                </button>
+                <button mat-icon-button [routerLink]="['/home/invoice-preview/1']">
                   <mat-icon class="icon-success">print</mat-icon>
                 </button>
               </td>

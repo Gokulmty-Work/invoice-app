@@ -81,11 +81,10 @@ class="menu-list-item primary"
 
     <div class="p-x-12 m-t-12">
       <a
-        [routerLink]="['/authentication/login']"
         mat-flat-button
         color="primary"
         class="w-100"
-        >Logout</a
+        (click)="logoutUser()">Logout</a
       >
     </div>
   </mat-menu>

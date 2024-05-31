@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { BlankComponent } from './layouts/blank/blank.component';
 import { FullComponent } from './layouts/full/full.component';
+import { authGuard } from './guards/auth.guard';
 
 const routes: Routes = [
   {
@@ -13,20 +14,22 @@ const routes: Routes = [
         redirectTo: '/authentication/login',
         pathMatch: 'full',
       },
-      {
-        path: 'dashboard',
-        loadChildren: () =>
-          import('./pages/pages.module').then((m) => m.PagesModule),
-      },
+      // {
+      //   path: 'dashboard',
+      //   loadChildren: () =>
+      //     import('./pages/pages.module').then((m) => m.PagesModule),
+      // },
       {
         path: 'home',
         loadChildren: () =>
           import('./pages/doc-generate/doc-generate.module').then((m) => m.DocGenerateModule),
+        canActivate: [authGuard]
       },
       {
         path: 'configure',
         loadChildren: () =>
           import('./pages/configuration/configuration.module').then((m) => m.ConfigurationModule),
+        canActivate: [authGuard]
       },
       {
         path: 'ui-components',
@@ -34,6 +37,7 @@ const routes: Routes = [
           import('./pages/ui-components/ui-components.module').then(
             (m) => m.UicomponentsModule
           ),
+        canActivate: [authGuard]
       },
       {
         path: 'extra',

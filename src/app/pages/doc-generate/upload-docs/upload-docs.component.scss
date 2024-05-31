@@ -121,6 +121,26 @@ tfoot {
 .back-button-style {
   margin-bottom: 1rem;
 }
+
+.disabled-input {
+  color: #666; /* Grey text color */
+  background-color: #f2f2f2; /* Light grey background color */
+  border-color: #ddd; /* Light grey border color */
+}
+
+.mat-checkbox-label {
+  color: #007bff; /* Blue color for the label */
+}
+
+/* For the checkbox when it's checked */
+.mat-checkbox-checked .mat-checkbox-background {
+  background-color: #004286; /* Darker color for the checkbox when checked */
+}
+
+/* For the checkbox when it's unchecked */
+.mat-checkbox-background {
+  background-color: #004286; /* Darker color for the checkbox when unchecked */
+}
   
 //   .mat-table {
 //     width: 100%;

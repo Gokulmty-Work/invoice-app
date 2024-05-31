@@ -1,0 +1,19 @@
+:host {
+    display: flex;
+  }
+
+  .example-pizza-party {
+    color: rgb(255 255 255 / 82%);
+  }
+
+  .info-icon{
+    height: 20px;
+    font-size: 22px;
+    color: #0085db;
+  }
+
+  app-snackbar .mat-mdc-snack-bar-container {
+    --mdc-snackbar-container-color: #5ac8fa !important;
+    --mdc-snackbar-supporting-text-color: rgba(255, 255, 255, 0.87) !important;
+    --mat-snack-bar-button-color: #0085db !important;
+  }

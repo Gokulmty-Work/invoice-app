@@ -6,13 +6,13 @@
       <mat-card class="cardWithShadow boxed-auth">
         <mat-card-content class="p-32">
           <div class="text-center">
-            <a [routerLink]="['/dashboard']">
+            <!-- <a [routerLink]="['/dashboard']"> -->
               <img
                 src="./assets/images/logos/dark-logo.svg"
                 class="align-middle m-2"
                 alt="logo"
               />
-            </a>
+            <!-- </a> -->
           </div>
 <!-- 
           <div class="row m-t-24 custom-row">
@@ -49,33 +49,27 @@
 
           <div class="or-border m-t-30">or sign in with</div> -->
 
-          <form class="m-t-30">
-            <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block"
-              >Username</mat-label
-            >
+          <div *ngIf="errorMessage" class="error-message">
+            <mat-icon class="warning-icon info-icon">info</mat-icon> 
+            <span>{{ errorMessage }}</span>
+          </div>
+
+          <form [formGroup]="loginForm" class="m-t-30" (ngSubmit)="onSubmit()">
+            <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block">Email Id</mat-label>
             <mat-form-field appearance="outline" class="w-100" color="primary">
-              <input matInput />
+              <input matInput formControlName="username" placeholder="Email ID" />
             </mat-form-field>
             <!-- password -->
-            <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block"
-              >Password</mat-label
-            >
+            <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block">Password</mat-label>
             <mat-form-field appearance="outline" class="w-100" color="primary">
-              <input matInput type="password" />
+              <input matInput type="password" formControlName="password" />
             </mat-form-field>
-
+          
             <div class="d-flex align-items-center m-b-12">
-              <mat-checkbox color="primary">Remember this Device</mat-checkbox>
-              <a
-                [routerLink]="['/']"
-                class="text-primary f-w-600 text-decoration-none m-l-auto f-s-14"
-                >Forgot Password ?</a
-              >
+              <mat-checkbox formControlName="rememberDevice" color="primary">Remember this Device</mat-checkbox>
+              <a [routerLink]="['/']" class="text-primary f-w-600 text-decoration-none m-l-auto f-s-14">Forgot Password ?</a>
             </div>
-            <a [routerLink]="['/home/list']" mat-flat-button color="primary" class="w-100">
-              Sign In
-            </a>
-            <!-- input -->
+            <button mat-flat-button color="primary" class="w-100" [disabled]="loginForm.invalid">Sign In</button>
           </form>
           <!-- <span class="d-block f-w-500 text-center m-t-24"
             >New to Spike?
