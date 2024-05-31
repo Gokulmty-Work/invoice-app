@@ -35,7 +35,6 @@ export class AppSideLoginComponent {
                 if (rememberDevice) {
                   localStorage.setItem('userData', JSON.stringify(response));
                 }
-                sessionStorage.setItem('userData', JSON.stringify(response))
                 this.authService.setUserData(response);
                 this.router.navigate(['/home/list']);
               }else {
