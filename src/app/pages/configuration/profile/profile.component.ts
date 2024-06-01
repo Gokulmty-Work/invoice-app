@@ -4,6 +4,8 @@ import { SnackbarComponent } from '../../doc-generate/snackbar/snackbar.componen
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CofigServiceService } from '../services/cofig-service.service';
 import { passwordMatchValidator } from '../validators/password-match-validator'
+import { DomSanitizer } from '@angular/platform-browser';
+import { AuthServiceService } from '../../authentication/services/auth-service.service';
 
 @Component({
   selector: 'app-profile',
@@ -15,8 +17,14 @@ export class ProfileComponent implements OnInit{
   userForm!: FormGroup;
   selectedTabIndex: number = 0;
   createUserForm!: FormGroup; 
+  selectedFile: any;
+  changePasswordForm!: FormGroup;
 
-  constructor(private _snackBar: MatSnackBar, private formBuilder: FormBuilder,private configService: CofigServiceService) {}
+  constructor(private _snackBar: MatSnackBar, 
+    private formBuilder: FormBuilder,
+    private configService: CofigServiceService, 
+    private sanitizer: DomSanitizer,
+    private authService: AuthServiceService) {}
 
   ngOnInit(): void {
     this.userForm = this.formBuilder.group({
@@ -30,7 +38,15 @@ export class ProfileComponent implements OnInit{
     },
     { validators: passwordMatchValidator}
   );
+   this.changePasswordForm = this.formBuilder.group({
+    emailId: [{value: '', disabled: true}, [Validators.required, Validators.email]],
+    oldPassword: ['', [Validators.required]],
+    newPassword: ['', [Validators.required, Validators.minLength(6)]],
+    confirmPassword: ['', [Validators.required]]
+  });
   this.getProfileImg();
+  this.getUserData();
+  this.setUserData();
   }
   
   openSnackBar(message: string, action: string) {
@@ -40,9 +56,10 @@ export class ProfileComponent implements OnInit{
     });
   }
 
-  switchTabs(tabIndex: number){
-    this.selectedTabIndex = tabIndex;
-    // this.initForm(tabName);
+  switchTabs(event: any){
+     // this.selectedTabIndex = tabIndex;
+     console.log('TabEvent',event.index);
+     // this.getUserData();
   }
 
   initForm(tabName: string){
@@ -64,11 +81,13 @@ export class ProfileComponent implements OnInit{
   createNewUser(){
     if (this.createUserForm?.valid) {
       console.log(this.createUserForm?.value);
-      this.configService.createUser(this.createUserForm.value).subscribe(
+      const requestData = this.arrangeData(this.createUserForm.value, 'create new');
+      this.configService.createUser(requestData).subscribe(
         {
           next: (response) => {
           console.log('User created successfully:', response);
           this.openSnackBar('User Created', 'Dismiss');
+          this.createUserForm.reset();
           },
           error: (error: any) => {
           console.error('Error creating user:', error);
@@ -111,10 +130,13 @@ export class ProfileComponent implements OnInit{
 
 getProfileImg(){
   let id = 1;
-  this.configService.getProfileImage(id).subscribe(
+  this.configService.getProfilePhoto(id).subscribe(
     {
       next: (response) => {
-        console.log('File DAta:', response);
+        console.log(response);
+
+        let objectURL = URL.createObjectURL(response);
+        this.selectedFile =  (this.sanitizer.bypassSecurityTrustResourceUrl(objectURL) as any).changingThisBreaksApplicationSecurity;
       },
       error: (error: any) => {
       console.error('Error:', error);
@@ -124,10 +146,80 @@ getProfileImg(){
   );
 }
 
+getUserData(): any {
+  const userData = this.authService.getUserData();
+  return userData;
+}
+
+setUserData(){
+  const userData = this.getUserData();
+  this.userForm.patchValue({
+    name: userData.name,
+    email: userData.email
+  });
+  this.changePasswordForm.patchValue({
+    emailId: userData.email
+  });
+}
+
  resetInput(){
   const input = document.getElementById('avatar-input-file') as HTMLInputElement;
   if(input){
     input.value = "";
   }
+}
+
+updatePassword(){
+  if (this.changePasswordForm?.valid) {
+    const requestData = this.arrangeData(this.changePasswordForm?.value, 'update password');
+
+    this.configService.updatePassword(requestData).subscribe(
+      {
+        next: (response) => {
+          console.log(response);
+        this.openSnackBar('Password Updated', 'Dismiss');
+        this.changePasswordForm.reset();
+        this.setUserData();
+        },
+        error: (error: any) => {
+        console.error('Error:', error);
+        this.openSnackBar(error, 'Dismiss');
+         },
+      }
+    );
+    // Perform action with form data
+  } else {
+    // Form is invalid, handle accordingly
+  }
+}
+
+arrangeData(formData: any,type: string){
+const userData = this.getUserData();
+let requestData = {};
+if(formData && type === 'update password'){
+  requestData = {
+    "id": userData.id,
+    "name": userData.name,
+    "email": userData.email,
+    "password": formData.oldPassword,
+    "changedNewPassword": formData.newPassword
+  }
+} else if(formData && type === 'create new'){
+  requestData = {
+    "id": 0,
+    "name": '',
+    "email": formData.email,
+    "password": formData.password,
+    "changedNewPassword": ''
+  }
+}
+console.log('req',requestData);
+return requestData;
+}
+
+ngOnDestroy(): void {
+if (this.selectedFile) {
+  URL.revokeObjectURL(this.selectedFile as string);
+}
 }
 }

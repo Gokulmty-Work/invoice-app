@@ -1,7 +1,7 @@
 <mat-card class="cardWithShadow">
     <mat-card-title class="profile-title">User Profile</mat-card-title>
   <mat-divider class="divider-header"></mat-divider>
-  <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="center" [selectedIndex]="selectedTabIndex">
+  <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="center" [selectedIndex]="selectedTabIndex" (selectedTabChange)="switchTabs($event)">
     <mat-tab label="User Details">
       <div class="details-container">
         <mat-card class="details-card">
@@ -10,10 +10,18 @@
             
             <mat-card-content>
               <div class="avatar-container">
-                <div class="image-container" *ngIf="file; else placeholder"
-                [ngClass]="{'box-shadow-avatar': !!file}"
-                [ngStyle]="{backgroundImage: 'url(' + file + ')'}">
-                </div>
+                <ng-container *ngIf="!selectedFile; else imageContainer">
+                  <div class="image-container" *ngIf="file; else placeholder"
+                  [ngClass]="{'box-shadow-avatar': !!file}"
+                  [ngStyle]="{backgroundImage: 'url(' + file + ')'}">
+                  </div>
+                </ng-container>
+                  <ng-template #imageContainer>
+                  <div class="image-container" *ngIf="selectedFile"
+                  [ngClass]="{'box-shadow-avatar': !!selectedFile}"
+                  [ngStyle]="{backgroundImage: 'url(' + selectedFile + ')'}">
+                  </div>
+                </ng-template>
             
                 <ng-template #placeholder>
                     <div class="image-container avatar-placeholder">
@@ -56,27 +64,31 @@
 <mat-divider class="divider-header"></mat-divider>
 
             <mat-card-content>
-        <form class="user-form">
-            <mat-form-field appearance="fill">
-              <mat-label>email Id</mat-label>
-              <input matInput placeholder="emailId" value="admin@admin.com" required>
-            </mat-form-field>
-            <mat-form-field appearance="fill">
-                <mat-label>Old Password</mat-label>
-                <input matInput type="password" placeholder="Old Password" required>
-              </mat-form-field>
-            <mat-form-field appearance="fill">
-              <mat-label>Password</mat-label>
-              <input matInput type="password" placeholder="New Password" required>
-            </mat-form-field>
-            <mat-form-field appearance="fill">
-              <mat-label>Confirm Password</mat-label>
-              <input matInput type="password" placeholder="Confirm Password" required>
-            </mat-form-field>
-            <div class="center-button">
-              <button mat-raised-button color="primary" type="submit" (click)="openSnackBar('Password Updated', 'Dismiss')">Update Password</button>
-            </div>
-          </form>
+              <form [formGroup]="changePasswordForm" (ngSubmit)="updatePassword()">
+                <mat-form-field appearance="fill">
+                  <mat-label>Email Id</mat-label>
+                  <input matInput placeholder="Email Id" formControlName="emailId">
+                </mat-form-field>
+              
+                <mat-form-field appearance="fill">
+                  <mat-label>Old Password</mat-label>
+                  <input matInput type="password" placeholder="Old Password" formControlName="oldPassword" autocomplete="off">
+                </mat-form-field>
+              
+                <mat-form-field appearance="fill">
+                  <mat-label>New Password</mat-label>
+                  <input matInput type="password" placeholder="New Password" formControlName="newPassword" autocomplete="off">
+                </mat-form-field>
+              
+                <mat-form-field appearance="fill">
+                  <mat-label>Confirm Password</mat-label>
+                  <input matInput type="password" placeholder="Confirm Password" formControlName="confirmPassword" autocomplete="off">
+                </mat-form-field>
+              
+                <div class="center-button">
+                  <button mat-raised-button color="primary" type="submit" [disabled]="!changePasswordForm.valid">Update Password</button>
+                </div>
+                </form>
         </mat-card-content>
           </mat-card>
     </div>

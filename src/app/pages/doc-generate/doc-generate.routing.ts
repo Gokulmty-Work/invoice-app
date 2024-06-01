@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 import { UnSavedChangesGuard } from 'src/app/guards/can-deactivate.guard';
 import { GenListComponent } from './gen-list/gen-list.component';
 import { InvoicePreviewComponent } from './invoice-preview/invoice-preview.component';
-import { UploadDocsComponent } from './upload-docs/upload-docs.component';
+import { CreateInvoiceComponent } from './create-invoice/create-invoice.component';
 
 // ui
 // import { AppBadgeComponent } from './badge/badge.component';
@@ -21,12 +21,12 @@ export const DocGenerateRoutes: Routes = [
       },
       {
         path: 'add-new',
-        component: UploadDocsComponent,
+        component: CreateInvoiceComponent,
         // canDeactivate: [UnSavedChangesGuard]
       },
       { 
         path: 'add-new/:id', 
-        component: UploadDocsComponent 
+        component: CreateInvoiceComponent 
       },
       {
         path: 'invoice-preview/:id',

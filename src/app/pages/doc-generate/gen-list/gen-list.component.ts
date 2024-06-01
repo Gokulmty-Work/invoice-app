@@ -1,4 +1,4 @@
-import { Component, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -6,13 +6,20 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { InvoiceServiceService } from '../services/invoice-service.service';
+import { DatePipe } from '@angular/common';
 
 export interface Transaction {
   recordId: number,
   invoceNumber: string;
   invoiceDate: string;
   buyerDetails: string;
-  shippingDetails?: string;
+};
+
+export interface DisplayFields {
+  recordId: number,
+  invoiceNumber: string;
+  invoiceDate: string;
+  buyerDetails: string;
 };
 
 const today = new Date();
@@ -25,14 +32,14 @@ const year = today.getFullYear();
   styleUrls: ['./gen-list.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class GenListComponent {
+export class GenListComponent implements OnInit{
   displayedColumns: string[] = ['invoceNumber', 'invoiceDate', 'buyerDetails', 'fileDownload'];
-  dataSource = new MatTableDataSource<Transaction>(TRANSACTIONS_DATA);
+  dataSource: any;
   @ViewChild(MatPaginator, {static: true}) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   // private formSubscription: Subscription;
 
-  constructor(public dialog: MatDialog, private invoiceService: InvoiceServiceService) {
+  constructor(public dialog: MatDialog, private invoiceService: InvoiceServiceService, private datePipe: DatePipe) {
     // Initialize your form and data source here
     // this.formSubscription = this.campaignOne.valueChanges.subscribe(() => {
     //   this.onDateRangeChange();
@@ -42,8 +49,39 @@ export class GenListComponent {
     // }));
   }
 
+  ngOnInit(): void {
+    this.getInvoiceData(1,3);
+  }
 
-  ngAfterViewInit() {
+  getInvoiceData(pageNumber: number, pageSize: number){
+    this.invoiceService.getInvoiceList(pageNumber,pageSize).subscribe(
+      {
+        next: (response) => {
+          console.log(response);
+          const modifiedResponseArray = this.modifyResponseArray(response);
+          this.dataSource = new MatTableDataSource<DisplayFields>(modifiedResponseArray);
+          this.initializePaginator();
+        },
+        error: (error) => {
+          console.log('Error',error);
+        }
+      }
+    );
+  }
+
+  modifyResponseArray(response: any){
+    return response.map((obj: any) => {
+      return {
+        invoiceNumber: obj.invoiceNumber,
+        invoiceDate: obj.invoiceDate,
+        recordId: obj.id,
+        soldTo: obj.soldTo
+      };
+    });
+  }
+
+
+  initializePaginator() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
@@ -63,23 +101,31 @@ export class GenListComponent {
     const endDateControl = this.campaignOne.get('end');
     // Check if both start date and end date are selected
     if (startDateControl && startDateControl.value && endDateControl && endDateControl.value) {
-      const startDate = startDateControl.value;
-      const endDate = endDateControl.value;
-      // Custom filter predicate function
-      const filterPredicate = (dataItem: any) => {
-        const itemDate = new Date(dataItem.invoiceDate); // Assuming your data has a 'date' property
-        return itemDate >= startDate && itemDate <= endDate;
-      };
-  
-      // Assign custom filter predicate function to dataSource
-      this.dataSource.filterPredicate = filterPredicate;
-      
-      // Triggering filtering manually
-      this.dataSource.filter = 'trigger'; // You can use any string here
+      const startDate = this.formatDate(startDateControl.value);
+      const endDate = this.formatDate(endDateControl.value);
+
+      this.invoiceService.dateRangeSearch(startDate,endDate).subscribe(
+        {
+          next: (response) => {
+            console.log(response);
+            const modifiedResponseArray = this.modifyResponseArray(response);
+          this.dataSource = new MatTableDataSource<DisplayFields>(modifiedResponseArray);
+          this.initializePaginator();
+          },
+          error: (error) => {
+            console.log('Error',error);
+          }
+        }
+      );
     } else {
       // If either start date or end date is not selected, clear the filter
       this.dataSource.filter = '';
     }
+  }
+
+  formatDate(dateString: any): any {
+    // const date = new Date(dateString);
+    return this.datePipe.transform(dateString, 'yyyy-MM-dd HH:mm:ss.SSS') || '';
   }
 
   deleteRecord(data: any){

@@ -26,7 +26,7 @@ export class CofigServiceService {
 
   createUser(userData: any): Observable<any> {
     const modifiedData = this.convertData(userData);
-    return this.http.post<any>(`${this.apiUrl}/create`, modifiedData);
+    return this.http.post<any>(`${this.apiUrlAuth}/register`, userData);
   }
 
   uploadFile(formData: FormData) {
@@ -36,7 +36,16 @@ export class CofigServiceService {
     return this.http.post<any>(`${this.apiUrlAuth}/profilePhoto`, formData, { headers });
   }
 
-  getProfileImage(id: number){
-    return this.http.get<any>(`${this.apiUrlAuth}/profilePhoto/${id}`);
+  // getProfileImage(id: number){
+  //   return this.http.get<any>(`${this.apiUrlAuth}/profilePhoto/${id}`);
+  // }
+
+  getProfilePhoto(id: number): Observable<Blob> {
+    //  return this.http.get(`${this.baseUrl}/profilePhoto/${id}`);
+      return this.http.get(`${this.apiUrlAuth}/profilePhoto/${id}`,{ responseType: 'blob' });
+  }
+
+  updatePassword(inputData: any): Observable<any>{
+    return this.http.post<any>(`${this.apiUrlAuth}/changePassword`, inputData);
   }
 }

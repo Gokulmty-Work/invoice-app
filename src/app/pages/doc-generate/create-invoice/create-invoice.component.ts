@@ -11,11 +11,11 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackbarComponent } from '../snackbar/snackbar.component';
 
 @Component({
-  selector: 'app-upload-docs',
-  templateUrl: './upload-docs.component.html',
-  styleUrls: ['./upload-docs.component.scss']
+  selector: 'app-create-invoice',
+  templateUrl: './create-invoice.component.html',
+  styleUrls: ['./create-invoice.component.scss']
 })
-export class UploadDocsComponent {
+export class CreateInvoiceComponent {
   ordersForm!: FormGroup;
   navigatingAway = false;
   invoiceDate;
@@ -338,7 +338,7 @@ export class UploadDocsComponent {
             error: (error: any) => {
             console.error('Error:', error);
             // ****** Testing Purpouse
-            this.printInvoice(formData);
+            // this.printInvoice(formData);
             //********
              },
           }
@@ -350,7 +350,7 @@ export class UploadDocsComponent {
   modifyInputData(data:any){
     console.log('Herer');
     const invoiceLineItems = data.orders.map((order: any) => ({
-      id: 0,
+      id: order.id,
       styleNumber: order.orderNumber,
       description: order.description,
       quantityOrdered: +order.quantityOrdered,
@@ -359,7 +359,7 @@ export class UploadDocsComponent {
       amount: +(order.quantityShipped * order.unitPrice)
     }));
     return {
-      id:0,
+      id:this.invoiceId,
       invoiceNumber: data.invoiceNumber,
       invoiceDate: data.invoiceDate,
       soldTo: data.soldTo,

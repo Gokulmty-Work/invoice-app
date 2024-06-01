@@ -18,9 +18,13 @@ export class AuthServiceService {
   constructor(private http: HttpClient, private router: Router) { }
 
   initUserData() {
-    if (localStorage.getItem('userData')) {
+    if (localStorage.getItem('userData') || sessionStorage.getItem('userData')) {
       this.isAuth.next(true);
-      this.router.navigate(['home/list']);
+      const localStorageData = localStorage.getItem('userData') || sessionStorage.getItem('userData');
+      if (localStorageData) {
+        this.setUserData(JSON.parse(localStorageData));
+      }
+      // this.router.navigate(['home/list']);
   }
   }
 
@@ -34,6 +38,7 @@ export class AuthServiceService {
   }
 
   setUserData(userData: any) {
+    console.log('Herer',userData);
     this.isAuth.next(true);
     this.userData = userData;
   }

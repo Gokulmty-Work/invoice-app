@@ -2,9 +2,10 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { DatePipe } from '@angular/common';
 
 import { MaterialModule } from '../../material.module';
-import { UploadDocsComponent } from './upload-docs/upload-docs.component';
+import { CreateInvoiceComponent } from './create-invoice/create-invoice.component';
 import { DocsFormComponent } from './docs-form/docs-form.component';
 import { DocsGenComponent } from './docs-gen/docs-gen.component';
 import { GenListComponent } from './gen-list/gen-list.component';
@@ -17,7 +18,7 @@ import { SnackbarComponent } from './snackbar/snackbar.component';
 
 @NgModule({
   declarations: [
-    UploadDocsComponent,
+    CreateInvoiceComponent,
     DocsFormComponent,
     DocsGenComponent,
     GenListComponent,
@@ -33,6 +34,9 @@ import { SnackbarComponent } from './snackbar/snackbar.component';
     MaterialModule,
     FormsModule,
     ReactiveFormsModule,
+  ],
+  providers: [
+    DatePipe
   ]
 })
 export class DocGenerateModule { }
