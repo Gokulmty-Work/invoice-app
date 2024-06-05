@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 export class AppSideLoginComponent {
   loginForm: FormGroup;
   errorMessage: string = '';
+  isProcessing: boolean = false;
 
   constructor(private fb: FormBuilder, private authService: AuthServiceService, private router: Router) {
     this.loginForm = this.fb.group({
@@ -22,6 +23,7 @@ export class AppSideLoginComponent {
 
   onSubmit() {
     if (this.loginForm.valid) {
+      this.isProcessing = true;
       const username = this.loginForm.value.username;
       const password = this.loginForm.value.password;
       const rememberDevice = this.loginForm.value.rememberDevice;
@@ -40,12 +42,13 @@ export class AppSideLoginComponent {
                 this.router.navigate(['/home/list']);
               }else {
             this.errorMessage = 'Incorrect Email Id / Password';
-                
+            this.isProcessing = false;
               }
             
           },
           error: (error) => {
             console.log(error);
+            this.isProcessing = false;
             this.errorMessage = 'Error. Please contact Admin.';
           }
         });

@@ -69,7 +69,7 @@
               <mat-checkbox formControlName="rememberDevice" color="primary">Remember this Device</mat-checkbox>
               <a [routerLink]="['/']" class="text-primary f-w-600 text-decoration-none m-l-auto f-s-14">Forgot Password ?</a>
             </div>
-            <button mat-flat-button color="primary" class="w-100" [disabled]="loginForm.invalid">Sign In</button>
+            <button mat-flat-button color="primary" class="w-100" [disabled]="loginForm.invalid || isProcessing"> {{ isProcessing ? 'Processing...' : 'Sign In' }}</button>
           </form>
           <!-- <span class="d-block f-w-500 text-center m-t-24"
             >New to Spike?

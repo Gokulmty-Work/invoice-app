@@ -170,8 +170,8 @@
           </tfoot>
         </table>
         <div class="buttons">
-          <button mat-raised-button color="primary" type="submit" class="action-button">Save</button>
-<button mat-raised-button color="primary" (click)="printSave()" class="action-button">Save & Print</button>
+          <button mat-flat-button color="primary" type="submit" class="action-button" [disabled]="ordersForm.pristine">Save</button>
+<button mat-flat-button color="primary" (click)="printSave()" class="action-button" [disabled]="ordersForm.pristine && !this.editMode">{{ ordersForm.pristine ? 'Print' : 'Save & Print' }}</button>
         </div>
       </form>
         
