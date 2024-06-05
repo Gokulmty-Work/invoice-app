@@ -7,6 +7,8 @@ import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation
 import { MatDialog } from '@angular/material/dialog';
 import { InvoiceServiceService } from '../services/invoice-service.service';
 import { DatePipe } from '@angular/common';
+import { SharedService } from 'src/app/services/shared.service';
+
 
 export interface Transaction {
   recordId: number,
@@ -42,7 +44,10 @@ export class GenListComponent implements OnInit{
   @ViewChild('searchInput') searchInput!: ElementRef;
   // private formSubscription: Subscription;
 
-  constructor(public dialog: MatDialog, private invoiceService: InvoiceServiceService, private datePipe: DatePipe) {
+  constructor(public dialog: MatDialog, 
+    private invoiceService: InvoiceServiceService, 
+    private datePipe: DatePipe,
+    private sharedService: SharedService) {
     // Initialize your form and data source here
     // this.formSubscription = this.campaignOne.valueChanges.subscribe(() => {
     //   this.onDateRangeChange();
@@ -95,18 +100,21 @@ export class GenListComponent implements OnInit{
       this.invoiceService.filterData(filterValue).subscribe(
         {
           next: (response) => {
-            console.log(response);
+            if(response && response.length){
             this.isTableEmpty = false;
             const modifiedResponseArray = this.modifyResponseArray(response);
             this.dataSource = new MatTableDataSource<DisplayFields>(modifiedResponseArray);
             this.initializePaginator();
+          }else {
+            this.isTableEmpty = true;
+            }
           },
           error: (error) => {
             console.log('Error',error);
           }
         });
     }else {
-      this.getInvoiceData(1,3);
+      this.getInvoiceData(1,2);
       this.filterEvent = '';
     }
    
@@ -128,10 +136,14 @@ export class GenListComponent implements OnInit{
       this.invoiceService.dateRangeSearch(startDate,endDate).subscribe(
         {
           next: (response) => {
+            if(response && response.length){
             this.isTableEmpty = false;
             const modifiedResponseArray = this.modifyResponseArray(response);
           this.dataSource = new MatTableDataSource<DisplayFields>(modifiedResponseArray);
           this.initializePaginator();
+        }else {
+          this.isTableEmpty = true;
+          }
           },
           error: (error) => {
             console.log('Error',error);
@@ -139,9 +151,10 @@ export class GenListComponent implements OnInit{
         }
       );
     } else {
-      this.dataSource.filter = '';
-      this.dataSource = new MatTableDataSource<DisplayFields>([]);
-    this.initializePaginator(); 
+    //   this.dataSource.filter = '';
+    //   this.dataSource = new MatTableDataSource<DisplayFields>([]);
+    // this.initializePaginator(); 
+    this.getInvoiceData(1,2);
     }
   }
 
@@ -186,6 +199,7 @@ export class GenListComponent implements OnInit{
       {
         next: (response) => {
           console.log('Deleted',response);
+          this.sharedService.openSnackBar('Invoice Deleted');
         },
         error: (error) => {
           console.log('Error',error);

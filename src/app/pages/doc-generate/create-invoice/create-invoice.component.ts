@@ -32,7 +32,7 @@ export class CreateInvoiceComponent {
     private invoiceService: InvoiceServiceService) {
     this.invoiceDate = new Date(); 
     this.ordersForm = this.fb.group({
-      invoiceNumber:['1'],
+      invoiceNumber:[this.generateRandomTwoDigitNumber()],
       invoiceDate: [this.invoiceDate],
       soldTo: [''],
       shipTo:[''],
@@ -308,17 +308,16 @@ export class CreateInvoiceComponent {
   }
 
   createForm(){
-    console.log('Herer1');
-
     const formData = this.modifyInputData(this.ordersForm.value);
-
     if(!this.editMode){
       this.invoiceService.createInvoice(formData).subscribe(
         {
           next: (response) => {
             console.log('Created successfully:', response);
             this.openSnackBar('Invoice Created');
-  
+            if(this.isPrint){
+              this.printInvoice(response);
+            }
           },
           error: (error: any) => {
           console.error('Error:', error);
@@ -389,7 +388,7 @@ export class CreateInvoiceComponent {
   }
 
   printInvoice(data: any){
-    data.id = 1;
+    // data.id = 1;
     this.router.navigate(['/home/invoice-preview/'+ data?.id]);
   }
 
@@ -398,5 +397,10 @@ export class CreateInvoiceComponent {
       data: { message: message},
       duration: 3000,
     });
+  }
+
+  generateRandomTwoDigitNumber(): number {
+    // Generate a random number between 10 and 99 (inclusive)
+    return Math.floor(Math.random() * 90) + 10;
   }
 }
