@@ -6,7 +6,7 @@ import { AuthServiceService } from './pages/authentication/services/auth-service
   templateUrl: './app.component.html',
 })
 export class AppComponent implements OnInit {
-  title = 'Spike Angular Admin Tempplate';
+  title = 'Admin Tempplate';
 
   constructor(private authService: AuthServiceService){}
 
