@@ -32,7 +32,7 @@ export class CreateInvoiceComponent {
     private invoiceService: InvoiceServiceService) {
     this.invoiceDate = new Date(); 
     this.ordersForm = this.fb.group({
-      invoiceNumber:['INVOICE / 10'],
+      invoiceNumber:['1'],
       invoiceDate: [this.invoiceDate],
       soldTo: [''],
       shipTo:[''],
