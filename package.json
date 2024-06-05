@@ -22,6 +22,7 @@
     "@angular/router": "^16.0.1",
     "angular-tabler-icons": "^2.18.0",
     "apexcharts": "^3.40.0",
+    "jspdf": "^2.5.1",
     "ng-apexcharts": "1.7.6",
     "ngx-scrollbar": "^11.0.0",
     "rxjs": "~7.8.0",

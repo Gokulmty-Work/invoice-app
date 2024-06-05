@@ -5,9 +5,13 @@
   </button>
 
   <app-branding></app-branding>
-  <span *ngFor="let tab of tabs">
-    <button mat-button class="menu-edit"  [routerLink]="[tab.url]">{{tab.name}}</button>
+  <span *ngIf="showToggle">
+    <span *ngFor="let tab of tabs">
+      <button mat-button class="menu-edit"  [routerLink]="[tab.url]">{{tab.name}}</button>
+    </span>
   </span>
+
+
   <!-- <button mat-button class="menu-edit">New Invoice</button> -->
 <!-- 
   <a
@@ -53,11 +57,13 @@ class="menu-list-item primary"
     [matMenuTriggerFor]="profilemenu"
     aria-label="Notifications" class="m-l-10"
   >
-    <img
+    <img *ngIf="!selectedFile" 
       src="/assets/images/profile/user-1.jpg"
       class="rounded-circle object-cover"
       width="35"
     />
+    <img *ngIf="selectedFile" [src]="selectedFile" class="rounded-circle object-cover" width="35" />
+
   </button>
   <mat-menu #profilemenu="matMenu" xPosition="before" class="topbar-dd cardWithShadow">
     <button mat-menu-item [routerLink]="['/configure/profile']">

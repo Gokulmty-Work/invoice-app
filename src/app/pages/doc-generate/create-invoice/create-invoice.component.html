@@ -131,7 +131,9 @@
           <tfoot>
             <tr>
               <td colspan="5" class="footer-label">Boxes:</td>
-              <td class="footer-value">{{ totalItems }}</td>
+              <td class="footer-value">
+                <input matInput placeholder="Total Boxes" formControlName="totalBoxes" autocomplete="off" appNumbersOnly>
+              </td>
               <td></td>
             </tr>
             <tr>

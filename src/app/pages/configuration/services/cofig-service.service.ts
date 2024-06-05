@@ -12,6 +12,8 @@ export class CofigServiceService {
   }
   private apiUrl = environment.apiUrl+`/api/appParameter`;
   private apiUrlAuth = environment.apiUrl+`/auth`;
+  private apiUrlConfig = environment.apiUrl+`/appParameter`;
+
 
 
   convertData(formData: any){
@@ -40,12 +42,27 @@ export class CofigServiceService {
   //   return this.http.get<any>(`${this.apiUrlAuth}/profilePhoto/${id}`);
   // }
 
-  getProfilePhoto(id: number): Observable<Blob> {
-    //  return this.http.get(`${this.baseUrl}/profilePhoto/${id}`);
-      return this.http.get(`${this.apiUrlAuth}/profilePhoto/${id}`,{ responseType: 'blob' });
-  }
+
 
   updatePassword(inputData: any): Observable<any>{
     return this.http.post<any>(`${this.apiUrlAuth}/changePassword`, inputData);
   }
+
+  getConfigData(): Observable<any>{
+    return this.http.get(`${this.apiUrlConfig}/`);
+  }
+
+  createConfigField(userData: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrlConfig}/create`, userData);
+  }
+
+  updateConfigField(userData: any, id: number): Observable<any> {
+    console.log('id',id);
+    return this.http.put<any>(`${this.apiUrlConfig}/update/${id}`, userData);
+  }
+
+  updateAllConfigFields(userData: any): Observable<any> {
+    return this.http.put<any>(`${this.apiUrlConfig}/updateAll`, userData);
+  }
+
 }

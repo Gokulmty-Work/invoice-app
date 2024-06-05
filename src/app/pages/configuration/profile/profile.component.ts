@@ -6,6 +6,7 @@ import { CofigServiceService } from '../services/cofig-service.service';
 import { passwordMatchValidator } from '../validators/password-match-validator'
 import { DomSanitizer } from '@angular/platform-browser';
 import { AuthServiceService } from '../../authentication/services/auth-service.service';
+import { SharedService } from 'src/app/services/shared.service';
 
 @Component({
   selector: 'app-profile',
@@ -24,7 +25,8 @@ export class ProfileComponent implements OnInit{
     private formBuilder: FormBuilder,
     private configService: CofigServiceService, 
     private sanitizer: DomSanitizer,
-    private authService: AuthServiceService) {}
+    private authService: AuthServiceService,
+    private sharedService: SharedService) {}
 
   ngOnInit(): void {
     this.userForm = this.formBuilder.group({
@@ -113,8 +115,9 @@ export class ProfileComponent implements OnInit{
 
  uploadFile(file: File) {
   const formData = new FormData();
+  const id = this.getUserData().id;
   formData.append('imageFile', file);
-  formData.append('profileId', '1');
+  formData.append('profileId', id);
   this.configService.uploadFile(formData).subscribe(
     {
       next: (response) => {
@@ -129,8 +132,8 @@ export class ProfileComponent implements OnInit{
 }
 
 getProfileImg(){
-  let id = 1;
-  this.configService.getProfilePhoto(id).subscribe(
+  let id = this.getUserData().id;
+  this.sharedService.getProfilePhoto(id).subscribe(
     {
       next: (response) => {
         console.log(response);
@@ -140,7 +143,7 @@ getProfileImg(){
       },
       error: (error: any) => {
       console.error('Error:', error);
-      this.openSnackBar(error, 'Dismiss');
+      // this.openSnackBar(error, 'Dismiss');
        },
     }
   );

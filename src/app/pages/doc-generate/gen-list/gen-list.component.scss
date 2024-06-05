@@ -56,6 +56,15 @@
   
   .new-button {
     margin-left: auto;
+    margin-bottom: 2rem;
+  }
+
+  .new-button .desktop-text {
+    display: inline-block;
+  }
+
+  .new-button .mobile-text {
+    display: none;
   }
 
   .table-style{
@@ -73,6 +82,25 @@
 
 .date-form-field {
   margin: 0 8px 0 30px;
+}
+
+@media (max-width: 768px) {
+  .date-form-field {
+    margin: 0;
+    padding-bottom: 1rem;
+  }
+  
+  .new-button {
+    margin-bottom: 0rem;
+  }
+
+  .new-button .desktop-text {
+    display: none;
+  }
+
+  .new-button .mobile-text {
+    display: inline-block;
+  }
 }
 
 @media print {

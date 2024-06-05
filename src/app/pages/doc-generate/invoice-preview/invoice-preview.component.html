@@ -3,32 +3,33 @@
 <mat-card class="cardWithShadow preview-card">
     
     <mat-card-content>
-
-<h1 style='margin:0in;margin-bottom:.0001pt;text-align:left;font-size:21px;font-family:"Times New Roman","serif";margin-left:-1.0in;'><span style='font-size:24px;font-family:"Comic Sans MS";'>C R E A T I V E</span></h1>
-<h1 style='margin:0in;margin-bottom:.0001pt;text-align:left;font-size:21px;font-family:"Times New Roman","serif";text-indent:-1.0in;'><span style='font-family:"Comic Sans MS";'>CUTE OPTIONS, INC.</span></h1>
-<p style='margin-top:0in;margin-right:0in;margin-bottom:.0001pt;margin-left:-1.0in;font-size:15px;font-family:"Times New Roman","serif";font-weight:bold;'><span style="font-weight:normal;">9221 VANALDEN AVE&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;INVOICE NO: {{invoiceData?.invoiceNumber}}</p>
-<h5 style='margin:0in;margin-bottom:.0001pt;font-size:15px;font-family:"Times New Roman","serif";margin-left:-1.0in;'><span style="font-weight:normal;">NORTHRIDGE, &nbsp;CA &nbsp; 91324&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span></h5>
-<p style='margin-top:0in;margin-right:0in;margin-bottom:.0001pt;margin-left:-1.0in;font-size:15px;font-family:"Times New Roman","serif";font-weight:bold;'><span style="font-weight:normal;">PHONE: &nbsp;(818) 772-6070</span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;INVOICE DATE: {{invoiceData?.invoiceDate}}</p>
-<p style='margin:0in;margin-bottom:.0001pt;font-size:16px;font-family:"Times New Roman","serif";margin-left:-1.0in;'><span style="font-size:15px;">FAX: &nbsp;(818) 772-8580</span></p>
+<div id="print-sheet2">
+<h1 style='margin:0in;margin-bottom:.0001pt;text-align:left;font-size:21px;font-family:"Times New Roman","serif";'><span style='font-size:24px;font-family:"Comic Sans MS";'>C R E A T I V E</span></h1>
+<h1 style='margin:0in;margin-bottom:.0001pt;text-align:left;font-size:21px;font-family:"Times New Roman","serif";'><span style='font-family:"Comic Sans MS";'>CUTE OPTIONS, INC.</span></h1>
+<p style='margin-top:0in;margin-right:0in;margin-bottom:.0001pt;font-size:15px;font-family:"Times New Roman","serif";font-weight:bold;'><span style="font-weight:normal;">9221 VANALDEN AVE&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;INVOICE NO: {{invoiceData?.invoiceNumber}}</p>
+<h5 style='margin:0in;margin-bottom:.0001pt;font-size:15px;font-family:"Times New Roman","serif";'><span style="font-weight:normal;">NORTHRIDGE, &nbsp;CA &nbsp; 91324&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span></h5>
+<p style='margin-top:0in;margin-right:0in;margin-bottom:.0001pt;font-size:15px;font-family:"Times New Roman","serif";font-weight:bold;'><span style="font-weight:normal;">PHONE: &nbsp;(818) 772-6070</span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;INVOICE DATE: {{invoiceData?.invoiceDate | date: 'shortDate' }}</p>
+<p style='margin:0in;margin-bottom:.0001pt;font-size:16px;font-family:"Times New Roman","serif";'><span style="font-size:15px;">FAX: &nbsp;(818) 772-8580</span></p>
 <table class="invoice-address-table">
     <tr>
-      <td class="invoice-address-label">
+      <td class="invoice-address-label" style="vertical-align: top;">
         <strong><span style="font-size: 15px;">SOLD TO:</span></strong>
       </td>
-      <td class="invoice-address-label">
+      <td class="invoice-address-label" style="vertical-align: top;margin-left: 20px;">
         <strong><span style="font-size: 15px;">SHIP TO:</span></strong>
       </td>
     </tr>
     <tr>
-      <td class="invoice-address">
-        <strong><span style="font-size: 15px;">{{invoiceData?.soldTo}}</span></strong>
+      <td class="invoice-address" style="vertical-align: top;">
+        <strong><div style="font-size: 15px;">{{invoiceData?.soldTo}}</div></strong>
       </td>
-      <td class="invoice-address">
-        <strong><span style="font-size: 15px;">{{invoiceData?.shipTo}}</span></strong>
+      <td class="invoice-address" style="vertical-align: top;margin-left: 20px;">
+        <strong><div style="font-size: 15px;">{{invoiceData?.shipTo}}</div></strong>
       </td>
     </tr>
   </table>
-<table style="width: 4.6e+2pt;margin-left:-66.6pt;border-collapse:collapse;border:none;">
+  
+<table style="width: 4.6e+2pt;border-collapse:collapse;border:none;">
     <tbody>
         <tr>
             <td style="width: 63pt;border-width: 4.5pt 1pt 1pt 4.5pt;border-style: double solid solid double;border-color: windowtext;background: white;padding: 0in 5.4pt;height: 11pt;vertical-align: top;">
@@ -170,17 +171,17 @@
         </tr>
     </tbody>
 </table>
-<p style='margin:0in;margin-bottom:.0001pt;font-size:13px;font-family:"Times New Roman","serif";font-weight:bold;margin-left:-81.0pt;'><span style="font-size:11px;font-weight:normal;">&nbsp; &nbsp;ANY ITEMS SUPPLIED WHICH ARE NOT SATISFACTORY SHOULD BE RETURNED WITHIN 10 DAYS</span></p>
-<p style='margin:0in;margin-bottom:.0001pt;font-size:16px;font-family:"Times New Roman","serif";margin-left:-81.0pt;'><span style="font-size:11px;">&nbsp; &nbsp;ANY ITEMS RETURNED AFTER 10 DAYS WILL CARRY A 20% RESTOCKING CHARGES</span></p>
-<p style='margin:0in;margin-bottom:.0001pt;font-size:16px;font-family:"Times New Roman","serif";margin-left:-81.0pt;'><span style="font-size:11px;">&nbsp; &nbsp;A SERVICE CHARGE OF 2% PER MONTH SHALL BE CHARGED ON OVERDUE BILLS.</span></p>
-<p style='margin:0in;margin-bottom:.0001pt;font-size:16px;font-family:"Times New Roman","serif";margin-left:-81.0pt;'><span style="font-size:11px;">&nbsp; &nbsp;BACK ORDERED ITEMS WILL BE SHIPPED AS SOON AS AVAILABLE, UNLESS WE ARE OTHERWISE ADVISED.&nbsp;</span></p>
-
+<p style='margin:0in;margin-bottom:.0001pt;font-size:13px;font-family:"Times New Roman","serif";font-weight:bold;'><span style="font-size:11px;font-weight:normal;">&nbsp; &nbsp;ANY ITEMS SUPPLIED WHICH ARE NOT SATISFACTORY SHOULD BE RETURNED WITHIN 10 DAYS</span></p>
+<p style='margin:0in;margin-bottom:.0001pt;font-size:16px;font-family:"Times New Roman","serif";'><span style="font-size:11px;">&nbsp; &nbsp;ANY ITEMS RETURNED AFTER 10 DAYS WILL CARRY A 20% RESTOCKING CHARGES</span></p>
+<p style='margin:0in;margin-bottom:.0001pt;font-size:16px;font-family:"Times New Roman","serif";'><span style="font-size:11px;">&nbsp; &nbsp;A SERVICE CHARGE OF 2% PER MONTH SHALL BE CHARGED ON OVERDUE BILLS.</span></p>
+<p style='margin:0in;margin-bottom:.0001pt;font-size:16px;font-family:"Times New Roman","serif";'><span style="font-size:11px;">&nbsp; &nbsp;BACK ORDERED ITEMS WILL BE SHIPPED AS SOON AS AVAILABLE, UNLESS WE ARE OTHERWISE ADVISED.&nbsp;</span></p>
+</div>
 <button mat-raised-button color="primary" class="print-button-style" (click)="printPage()">Print</button>
-
+<!-- <button mat-raised-button color="primary" class="print-button-style" (click)="openPDF()">Save as PDF</button> -->
 </mat-card-content>
 </mat-card>
 
-<div class="print-sheet">
+<div class="print-sheet" #pdfContent style="overflow-x: hidden;margin-left: -13px;">
     
 <h1 style='margin:0in;margin-bottom:.0001pt;text-align:left;font-size:21px;font-family:"Times New Roman","serif";'><span style='font-size:24px;font-family:"Comic Sans MS";'>C R E A T I V E</span></h1>
 <h1 style='margin:0in;margin-bottom:.0001pt;text-align:left;font-size:21px;font-family:"Times New Roman","serif";'><span style='font-family:"Comic Sans MS";'>CUTE OPTIONS, INC.</span></h1>
@@ -191,7 +192,7 @@
 <h5 style='margin:0in;margin-bottom:.0001pt;font-size:15px;font-family:"Times New Roman","serif";'><span style="font-weight:normal;">NORTHRIDGE, &nbsp;CA &nbsp; 91324&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span></h5>
 <p style="margin-top:0in;margin-right:0in;margin-bottom:.0001pt;font-size:15px;font-family:'Times New Roman',serif;font-weight:bold;">
     <span style="font-weight:normal;">PHONE: (818) 772-6070</span>
-    <span style="margin-left: 20rem;">INVOICE DATE: {{invoiceData?.invoiceDate}}</span>
+    <span style="margin-left: 20rem;">INVOICE DATE: {{invoiceData?.invoiceDate | date: 'shortDate' }}</span>
 </p>
 <p style='margin:0in;margin-bottom:.0001pt;font-size:16px;font-family:"Times New Roman","serif";'><span style="font-size:15px;">FAX: &nbsp;(818) 772-8580</span></p>
 <div class="invoice-address-container">
@@ -204,10 +205,10 @@
   </div>
   <div class="invoice-address-container">
     <div class="invoice-address">
-      <strong><span style="font-size: 15px;">{{invoiceData?.soldTo}}</span></strong>
+      <strong><div style="font-size: 15px;">{{invoiceData?.soldTo}}</div></strong>
     </div>
     <div class="invoice-address">
-      <strong><span style="font-size: 15px;">{{invoiceData?.shipTo}}</span></strong>
+      <strong><div style="font-size: 15px;">{{invoiceData?.shipTo}}</div></strong>
     </div>
   </div>
   

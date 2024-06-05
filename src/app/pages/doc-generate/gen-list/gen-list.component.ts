@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -35,8 +35,11 @@ const year = today.getFullYear();
 export class GenListComponent implements OnInit{
   displayedColumns: string[] = ['invoceNumber', 'invoiceDate', 'buyerDetails', 'fileDownload'];
   dataSource: any;
+  filterEvent: any;
+  isTableEmpty: boolean = true;
   @ViewChild(MatPaginator, {static: true}) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
+  @ViewChild('searchInput') searchInput!: ElementRef;
   // private formSubscription: Subscription;
 
   constructor(public dialog: MatDialog, private invoiceService: InvoiceServiceService, private datePipe: DatePipe) {
@@ -50,7 +53,7 @@ export class GenListComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    this.getInvoiceData(1,3);
+    this.getInvoiceData(1,2);
   }
 
   getInvoiceData(pageNumber: number, pageSize: number){
@@ -58,9 +61,14 @@ export class GenListComponent implements OnInit{
       {
         next: (response) => {
           console.log(response);
+          if(response && response.length){
+          this.isTableEmpty = false;
           const modifiedResponseArray = this.modifyResponseArray(response);
           this.dataSource = new MatTableDataSource<DisplayFields>(modifiedResponseArray);
           this.initializePaginator();
+          }else {
+          this.isTableEmpty = true;
+          }
         },
         error: (error) => {
           console.log('Error',error);
@@ -80,15 +88,29 @@ export class GenListComponent implements OnInit{
     });
   }
 
-
-  initializePaginator() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-  }
-
   applyFilter(event: Event) {
+    this.filterEvent = event;
     const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
-    this.dataSource.filter = filterValue;
+    if(filterValue){
+      this.invoiceService.filterData(filterValue).subscribe(
+        {
+          next: (response) => {
+            console.log(response);
+            this.isTableEmpty = false;
+            const modifiedResponseArray = this.modifyResponseArray(response);
+            this.dataSource = new MatTableDataSource<DisplayFields>(modifiedResponseArray);
+            this.initializePaginator();
+          },
+          error: (error) => {
+            console.log('Error',error);
+          }
+        });
+    }else {
+      this.getInvoiceData(1,3);
+      this.filterEvent = '';
+    }
+   
+    // this.dataSource.filter = filterValue;
   }
 
   campaignOne = new FormGroup({
@@ -99,7 +121,6 @@ export class GenListComponent implements OnInit{
   onDateRangeChange() {
     const startDateControl = this.campaignOne.get('start');
     const endDateControl = this.campaignOne.get('end');
-    // Check if both start date and end date are selected
     if (startDateControl && startDateControl.value && endDateControl && endDateControl.value) {
       const startDate = this.formatDate(startDateControl.value);
       const endDate = this.formatDate(endDateControl.value);
@@ -107,7 +128,7 @@ export class GenListComponent implements OnInit{
       this.invoiceService.dateRangeSearch(startDate,endDate).subscribe(
         {
           next: (response) => {
-            console.log(response);
+            this.isTableEmpty = false;
             const modifiedResponseArray = this.modifyResponseArray(response);
           this.dataSource = new MatTableDataSource<DisplayFields>(modifiedResponseArray);
           this.initializePaginator();
@@ -118,9 +139,26 @@ export class GenListComponent implements OnInit{
         }
       );
     } else {
-      // If either start date or end date is not selected, clear the filter
       this.dataSource.filter = '';
+      this.dataSource = new MatTableDataSource<DisplayFields>([]);
+    this.initializePaginator(); 
     }
+  }
+
+  
+  initializePaginator() {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+
+    this.dataSource.sortingDataAccessor = (item: any, property: any) => {
+      console.log('Sort',item,property);
+      switch (property) {
+        case 'invoiceNumber': return item.invoiceNumber;
+        case 'invoiceDate': return item.invoiceDate;
+        case 'soldTo': return item.soldTo;
+        default: return item[property];
+      }
+    };
   }
 
   formatDate(dateString: any): any {
@@ -135,54 +173,42 @@ export class GenListComponent implements OnInit{
 
     dialogRef.afterClosed().subscribe((result: any) => {
       if (result) {
-        // User confirmed deletion, proceed with delete action
         console.log('Deleting record:', data);
         this.deleteInvoice(data);
       } else {
-        // User canceled deletion, do nothing
         console.log('Deletion canceled');
       }
     });
   }
 
   deleteInvoice(data: any){
-    data.id= 2;
-    this.invoiceService.deleteInvoice(data.id).subscribe(
+    this.invoiceService.deleteInvoice(data.recordId).subscribe(
       {
         next: (response) => {
-          console.log(response);
+          console.log('Deleted',response);
         },
         error: (error) => {
           console.log('Error',error);
         }
       }
     );
+    if(this.filterEvent){
+      this.applyFilter(this.filterEvent);
+    }else {
+      this.getInvoiceData(1,2);
+    }
+  }
+
+  clearFilter(){
+    this.getInvoiceData(1,2);
+    this.campaignOne.patchValue({
+      start: new Date(year, month, today.getDate()),
+      end: new Date(year, month, today.getDate() + 3)
+    });
+    this.searchInput.nativeElement.value = '';
   }
 
   ngOnDestroy() {
-    // Unsubscribe from form value changes to prevent memory leaks
     // this.formSubscription.unsubscribe();
   }
 }
-
-
-
-const TRANSACTIONS_DATA: Transaction[] = [
-  {recordId:16, invoceNumber: '16', invoiceDate: '05/05/2024', buyerDetails: 'HMT Industries'},
-  {recordId:15, invoceNumber: '15', invoiceDate: '05/01/2024', buyerDetails: 'Cisco'},
-  {recordId:14, invoceNumber: '14', invoiceDate: '04/25/2024', buyerDetails: 'Foxcon'},
-  {recordId:13, invoceNumber: '13', invoiceDate: '04/20/2024', buyerDetails: 'Boeing'},
-  {recordId:12, invoceNumber: '12', invoiceDate: '04/15/2024', buyerDetails: 'Walmart'},
-  {recordId:11, invoceNumber: '11', invoiceDate: '04/10/2024', buyerDetails: 'Cisco'},
-  {recordId:10, invoceNumber: '10', invoiceDate: '04/05/2024', buyerDetails: 'BHEL'},
-  {recordId:9, invoceNumber: '9', invoiceDate: '04/01/2024', buyerDetails: 'Foxcon'},
-  {recordId:8, invoceNumber: '8', invoiceDate: '03/30/2024', buyerDetails: 'Airbus'},
-  {recordId:7, invoceNumber: '7', invoiceDate: '03/25/2024', buyerDetails: 'BHEL'},
-  {recordId:6, invoceNumber: '6', invoiceDate: '03/20/2024', buyerDetails: 'Boeing'},
-  {recordId:5, invoceNumber: '5', invoiceDate: '03/15/2024', buyerDetails: 'HMT Industries'},
-  {recordId:4, invoceNumber: '4', invoiceDate: '03/10/2024', buyerDetails: 'Cisco'},
-  {recordId:3, invoceNumber: '3', invoiceDate: '03/05/2024', buyerDetails: 'Foxcon'},
-  {recordId:2, invoceNumber: '2', invoiceDate: '03/01/2024', buyerDetails: 'BHEL'},
-  {recordId:1, invoceNumber: '1', invoiceDate: '02/25/2024', buyerDetails: 'Airbus'}
-];
-

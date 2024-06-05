@@ -4,7 +4,7 @@
         <div class="search-container">
             <mat-form-field appearance="outline">
                 <mat-label>Search</mat-label>
-              <input matInput (keyup)="applyFilter($event)" placeholder="Search Here">
+              <input #searchInput  matInput (keyup)="applyFilter($event)" placeholder="Search Here">
                 <mat-icon matSuffix>search</mat-icon>
             </mat-form-field>
 
@@ -21,14 +21,17 @@
               <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
               <mat-date-range-picker #picker></mat-date-range-picker>
             </mat-form-field>
+
+            <button mat-raised-button color="primary" (click)="clearFilter()">Clear Filter</button>
           </div>
 
           <button mat-raised-button [routerLink]="['/home/add-new']" color="primary" class="new-button">
             <mat-icon>add</mat-icon>
-            <span>Create New Invoice</span>
+            <span class="desktop-text">Create New Invoice</span>
+            <span class="mobile-text">New</span>
           </button>
         </div>
-          <table *ngIf="dataSource" mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
+          <table *ngIf="dataSource && !isTableEmpty" mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
 
             <!-- Invoice Number Column -->
             <ng-container matColumnDef="invoceNumber">
@@ -92,6 +95,9 @@
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="row-hover"></tr>
           </table>
+          <div *ngIf="isTableEmpty">
+            No Data to Show.
+          </div>
           <mat-paginator [pageSizeOptions]="[ 10, 25, 100]"></mat-paginator>
     </mat-card-content>
     </mat-card>

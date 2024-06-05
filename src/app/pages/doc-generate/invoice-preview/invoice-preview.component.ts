@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { InvoiceServiceService } from '../services/invoice-service.service';
+// import jsPDF from 'jspdf';
+
 
 @Component({
   selector: 'app-invoice-preview',
@@ -9,9 +11,10 @@ import { InvoiceServiceService } from '../services/invoice-service.service';
   styleUrls: ['./invoice-preview.component.scss']
 })
 export class InvoicePreviewComponent implements OnInit{
-
+  @ViewChild('pdfContent') pdfContent!: ElementRef;
   invoiceId: string | null = null;
   invoiceData: any | null = null;
+  isDisplayed: boolean = false;
     
   constructor(private location: Location, 
     private route: ActivatedRoute,
@@ -41,9 +44,7 @@ export class InvoicePreviewComponent implements OnInit{
   }
 
   setValue(data:any){
-    console.log('Check');
     if(!data.id){
-        console.log('Test Values');
        data = {
       id:1,
       invoiceNumber: '2022/1',
@@ -92,7 +93,9 @@ export class InvoicePreviewComponent implements OnInit{
   }
 
   printPage(){
+    this.isDisplayed = true;
     window.print();
+    this.isDisplayed = false;
   }
 
   ngAfterContentInit(): void{
@@ -102,5 +105,34 @@ export class InvoicePreviewComponent implements OnInit{
   goBack(): void {
     this.location.back();
   }
+
+//   public openPDF(): void {
+//     this.isDisplayed = true;
+//     const pdf = new jsPDF('p', 'pt', 'letter');
+//     const contentElement = document.getElementById('print-sheet');
+// const hiddenElement = contentElement?.querySelector('.print-sheet')as HTMLElement;
+// if(hiddenElement){
+//   hiddenElement.style.display = 'block';
+//   hiddenElement.style.fontSize = '10px';
+// }
+
+//     const options = {
+//       html2canvas: {},
+//       callback: () => {
+//         pdf.save('invoice.pdf');
+//       }
+//     };
+//     const content = this.pdfContent.nativeElement;
+//     if(contentElement){
+//     pdf.html(contentElement, {
+//       callback: () => {
+//         pdf.save('invoice.pdf');
+//       }
+//     });
+//   }else{
+//     console.log('empty');
+//   }
+//   this.isDisplayed = false;
+//   }
 
 }

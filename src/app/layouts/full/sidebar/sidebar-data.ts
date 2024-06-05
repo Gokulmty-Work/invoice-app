@@ -2,13 +2,23 @@ import { NavItem } from './nav-item/nav-item';
 
 export const navItems: NavItem[] = [
   {
-    navCap: 'Home',
+    navCap: 'Dashboard',
   },
   {
-    displayName: 'Dashboard',
-    iconName: 'layout-dashboard',
-    route: '/dashboard',
+    displayName: 'Home',
+    iconName: 'list',
+    route: '/home/list',
   },
+  {
+    displayName: 'New Invoice',
+    iconName: 'plus',
+    route: '/home/add-new',
+  },
+  {
+    displayName: 'Config',
+    iconName: 'lock',
+    route: '/configure/config',
+  }
   // {
   //   navCap: 'Ui Components',
   // },
@@ -63,17 +73,17 @@ export const navItems: NavItem[] = [
   //   iconName: 'aperture',
   //   route: '/extra/sample-page',
   // },
-    {
-    navCap: 'File Works',
-  },
-  {
-    displayName: 'Generated Files',
-    iconName: 'copy',
-    route: '/gen-files/list',
-  },
-  {
-    displayName: 'Generate New File',
-    iconName: 'plus',
-    route: '/gen-files/add-new',
-  },
+  //   {
+  //   navCap: 'File Works',
+  // },
+  // {
+  //   displayName: 'Generated Files',
+  //   iconName: 'copy',
+  //   route: '/gen-files/list',
+  // },
+  // {
+  //   displayName: 'Generate New File',
+  //   iconName: 'plus',
+  //   route: '/gen-files/add-new',
+  // },
 ];

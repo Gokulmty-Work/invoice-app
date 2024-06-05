@@ -47,7 +47,8 @@ export class CreateInvoiceComponent {
       frieghtAmount: [''],
       includeTaxes: [false],
       taxDesc: [{value:'', disabled: true}],
-      taxValue:[{value:'', disabled: true}]
+      taxValue:[{value:'', disabled: true}],
+      totalBoxes: ['']
     });
 
     this.includeTaxesControl?.valueChanges.subscribe(checked => {
@@ -162,7 +163,8 @@ export class CreateInvoiceComponent {
       frieghtAmount: data.frieghtCharges,
       includeTaxes: data.taxRequired,
       taxDesc: data.taxDescription,
-      taxValue: data.taxPercent
+      taxValue: data.taxPercent,
+      totalBoxes: data.boxes
     });
 
     this.setInvoiceLineItems(data.invoiceLineItems);
@@ -204,15 +206,15 @@ export class CreateInvoiceComponent {
     return (this.ordersForm.get('orders') as FormArray).controls;
   }
 
-  get totalItems(): number {
-    const control = this.ordersForm.get('orders') as FormArray;
-    let total = 0;
-    control.controls.forEach((orderGroup) => {
-      const amount = orderGroup.get('quantityShipped')?.value || 0;
-      total += parseInt(amount);
-    });
-    return total;
-  }
+  // get totalItems(): number {
+  //   const control = this.ordersForm.get('orders') as FormArray;
+  //   let total = 0;
+  //   control.controls.forEach((orderGroup) => {
+  //     const amount = orderGroup.get('quantityShipped')?.value || 0;
+  //     total += parseInt(amount);
+  //   });
+  //   return total;
+  // }
 
   get taxAmount(): number {
     const control = this.ordersForm.get('orders') as FormArray;
@@ -348,7 +350,6 @@ export class CreateInvoiceComponent {
   }
 
   modifyInputData(data:any){
-    console.log('Herer');
     const invoiceLineItems = data.orders.map((order: any) => ({
       id: order.id,
       styleNumber: order.orderNumber,
@@ -370,7 +371,7 @@ export class CreateInvoiceComponent {
       shipVia: data.shipVia,
       terms: data.terms,
       salesman: data.salesman,
-      boxes: this.totalItems,
+      boxes: data.totalBoxes,
       taxRequired: this.includeTaxesControl?.value,
       taxPercent: +data.taxValue,
       taxDescription: data.taxDesc,

@@ -38,4 +38,8 @@ export class InvoiceServiceService {
   dateRangeSearch(startDate: any,endDate: any): Observable<any>{
     return this.http.get<any>(`${this.apiUrl}/searchBetweenDates?start=${startDate}&end=${endDate}`);
   }
+
+  filterData(filterValue: string): Observable<any>{
+    return this.http.get<any>(`${this.apiUrl}/search/${filterValue}`);
+  }
 }
