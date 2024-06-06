@@ -21,7 +21,8 @@ export class CreateInvoiceComponent {
   invoiceDate;
   editMode: boolean = false;
   invoiceId: string | null = null;
-  isPrint: boolean = false
+  isPrint: boolean = false;
+  configData: any;
   
   constructor(private fb: FormBuilder,
     private _snackBar: MatSnackBar, 
@@ -32,7 +33,7 @@ export class CreateInvoiceComponent {
     private invoiceService: InvoiceServiceService) {
     this.invoiceDate = new Date(); 
     this.ordersForm = this.fb.group({
-      invoiceNumber:[this.generateRandomTwoDigitNumber()],
+      invoiceNumber:[''],
       invoiceDate: [this.invoiceDate],
       soldTo: [''],
       shipTo:[''],
@@ -78,7 +79,7 @@ export class CreateInvoiceComponent {
   }
 
   ngOnInit() {
-
+    this.getConfigData();
     this.route.paramMap.subscribe(params => {
       this.invoiceId = params.get('id');
       this.editMode = this.invoiceId !== null;
@@ -86,6 +87,26 @@ export class CreateInvoiceComponent {
         this.loadInvoice(this.invoiceId);
       }
     });
+  }
+
+  getConfigData(){
+    this.configData = {
+      companyName: 'Creative Cute Options INC.',
+      invoiceSerial: 'Serial Number'
+    }
+    this.invoiceService.getConfigData().subscribe(
+      {
+        next: (response) => {
+          console.log('Resp',response);
+          response.forEach((item: any) => {
+            this.configData[item.keyField] = item.keyValue;
+          });
+        },
+        error: (error) => {
+          console.log(error);
+        }
+      }
+    );
   }
 
   loadInvoice(invoiceId: string){

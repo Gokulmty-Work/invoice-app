@@ -11,6 +11,8 @@ export class InvoiceServiceService {
   constructor(private http: HttpClient) { }
 
   private apiUrl = environment.apiUrl+`/invoice`;
+  private apiUrlParameter = environment.apiUrl+``;
+
   private headers = new HttpHeaders()
   .set('content-type', 'application/json')
   .set('Access-Control-Allow-Origin', '*');
@@ -41,5 +43,9 @@ export class InvoiceServiceService {
 
   filterData(filterValue: string): Observable<any>{
     return this.http.get<any>(`${this.apiUrl}/search/${filterValue}`);
+  }
+
+  getConfigData(){
+    return this.http.get<any>(`${this.apiUrlParameter}/appParameter/`);
   }
 }

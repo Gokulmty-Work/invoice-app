@@ -5,7 +5,7 @@
 
 <mat-card class="cardWithShadow new-invoice">
   <mat-card-header class="centered-header">
-    <mat-card-title class="centered-title">Creative Cute Options INC.</mat-card-title>
+    <mat-card-title class="centered-title">{{configData.companyName}}</mat-card-title>
     <!-- <mat-card-subtitle>Start</mat-card-subtitle> -->
   </mat-card-header>
   <mat-divider class="divider-header"></mat-divider>
@@ -18,7 +18,7 @@
           </mat-form-field> -->
           <mat-form-field appearance="outline" class="small-width">
             <mat-label>Invoice Number</mat-label>
-            <input matInput type="text" formControlName="invoiceNumber" placeholder="Enter Invoice Number" readonly>
+            <input matInput type="text" formControlName="invoiceNumber" [placeholder]="configData.invoiceSerial">
           </mat-form-field>
           <mat-form-field appearance="outline" class="small-width">
             <mat-label>Invoice Date</mat-label>
@@ -101,7 +101,7 @@
           <tbody formArrayName="orders">
             <tr *ngFor="let order of orders; let i = index" [formGroupName]="i">
               <td>
-                <input matInput placeholder="Order Number" formControlName="orderNumber">
+                <input #inputToFocus matInput placeholder="Style #" formControlName="orderNumber">
               </td>
               <td>
                 <input matInput placeholder="Description" formControlName="description">
@@ -137,12 +137,12 @@
               <td></td>
             </tr>
             <tr>
-              <td colspan="2" class="footer-label">Frieght Charges:</td>
+              <td colspan="2" class="footer-label">Freight Charges:</td>
               <td colspan="3" class="footer-label">
-                <input matInput placeholder="Frieght Description" formControlName="frieghtDesc">
+                <input matInput placeholder="Freight Description" formControlName="frieghtDesc">
               </td>
               <td class="footer-value">
-                <input matInput placeholder="Frieght Amount" formControlName="frieghtAmount" appNumbersOnly autocomplete="off">
+                <input matInput placeholder="Freight Amount" formControlName="frieghtAmount" appNumbersOnly autocomplete="off">
               </td>
               <td></td>
             </tr>

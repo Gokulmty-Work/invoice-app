@@ -39,6 +39,7 @@ export class GenListComponent implements OnInit{
   dataSource: any;
   filterEvent: any;
   isTableEmpty: boolean = true;
+  totalData: number = 0;
   @ViewChild(MatPaginator, {static: true}) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild('searchInput') searchInput!: ElementRef;
@@ -55,22 +56,27 @@ export class GenListComponent implements OnInit{
     // this.formSubscription.add(this.campaignTwo.valueChanges.subscribe(() => {
     //   this.onDateRangeChange();
     // }));
+
+    this.dataSource = new MatTableDataSource<DisplayFields>();
   }
 
   ngOnInit(): void {
-    this.getInvoiceData(1,2);
+    this.getInvoiceData();
   }
 
-  getInvoiceData(pageNumber: number, pageSize: number){
-    this.invoiceService.getInvoiceList(pageNumber,pageSize).subscribe(
+  getInvoiceData(){
+    const currentPage = this.paginator.pageIndex || 0;
+    const pageSize = this.paginator.pageSize || 10;
+    this.invoiceService.getInvoiceList(currentPage,pageSize).subscribe(
       {
         next: (response) => {
-          console.log(response);
           if(response && response.length){
           this.isTableEmpty = false;
           const modifiedResponseArray = this.modifyResponseArray(response);
-          this.dataSource = new MatTableDataSource<DisplayFields>(modifiedResponseArray);
-          this.initializePaginator();
+          this.dataSource.data = modifiedResponseArray;
+          this.dataSource.length = 15;
+          // this.initializePaginator();
+          this.totalData = 15;
           }else {
           this.isTableEmpty = true;
           }
@@ -103,8 +109,9 @@ export class GenListComponent implements OnInit{
             if(response && response.length){
             this.isTableEmpty = false;
             const modifiedResponseArray = this.modifyResponseArray(response);
-            this.dataSource = new MatTableDataSource<DisplayFields>(modifiedResponseArray);
-            this.initializePaginator();
+            this.dataSource.data = modifiedResponseArray;
+            this.paginator.length = 15;
+            // this.initializePaginator();
           }else {
             this.isTableEmpty = true;
             }
@@ -114,7 +121,7 @@ export class GenListComponent implements OnInit{
           }
         });
     }else {
-      this.getInvoiceData(1,2);
+      this.getInvoiceData();
       this.filterEvent = '';
     }
    
@@ -122,8 +129,8 @@ export class GenListComponent implements OnInit{
   }
 
   campaignOne = new FormGroup({
-    start: new FormControl(new Date(year, month, 13)),
-    end: new FormControl(new Date(year, month, 16)),
+    start: new FormControl(new Date(year, month, today.getDate() - 3)),
+    end: new FormControl(new Date(year, month, today.getDate())),
   });
   
   onDateRangeChange() {
@@ -139,8 +146,9 @@ export class GenListComponent implements OnInit{
             if(response && response.length){
             this.isTableEmpty = false;
             const modifiedResponseArray = this.modifyResponseArray(response);
-          this.dataSource = new MatTableDataSource<DisplayFields>(modifiedResponseArray);
-          this.initializePaginator();
+          this.dataSource.data = modifiedResponseArray;
+          this.paginator.length = 15;
+          // this.initializePaginator();
         }else {
           this.isTableEmpty = true;
           }
@@ -154,7 +162,7 @@ export class GenListComponent implements OnInit{
     //   this.dataSource.filter = '';
     //   this.dataSource = new MatTableDataSource<DisplayFields>([]);
     // this.initializePaginator(); 
-    this.getInvoiceData(1,2);
+    this.getInvoiceData();
     }
   }
 
@@ -209,12 +217,12 @@ export class GenListComponent implements OnInit{
     if(this.filterEvent){
       this.applyFilter(this.filterEvent);
     }else {
-      this.getInvoiceData(1,2);
+      this.getInvoiceData();
     }
   }
 
   clearFilter(){
-    this.getInvoiceData(1,2);
+    this.getInvoiceData();
     this.campaignOne.patchValue({
       start: new Date(year, month, today.getDate()),
       end: new Date(year, month, today.getDate() + 3)

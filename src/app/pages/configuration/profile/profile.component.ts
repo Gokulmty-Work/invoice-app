@@ -121,6 +121,7 @@ export class ProfileComponent implements OnInit{
   this.configService.uploadFile(formData).subscribe(
     {
       next: (response) => {
+        this.selectedFile = '';
         console.log('File uploaded successfully:', response);
       },
       error: (error: any) => {
@@ -216,7 +217,6 @@ if(formData && type === 'update password'){
     "changedNewPassword": ''
   }
 }
-console.log('req',requestData);
 return requestData;
 }
 

@@ -77,4 +77,8 @@ mat-card-content {
       .no-print-scrollbar {
         overflow: hidden;
       }
+
+      .header, .footer {
+        display: none; /* Hide elements with class 'header' or 'footer' */
+      }
 }
