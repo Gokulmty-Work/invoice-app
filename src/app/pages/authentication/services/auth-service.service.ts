@@ -24,7 +24,6 @@ export class AuthServiceService {
       if (localStorageData) {
         this.setUserData(JSON.parse(localStorageData));
       }
-
       const currentRoute = this.router.url; 
       console.log('route',currentRoute);
       if (currentRoute && currentRoute !== '/') {
@@ -32,7 +31,8 @@ export class AuthServiceService {
       } else {
         this.router.navigate(['home/list']);
       }
-      }
+      // this.router.navigate(['home/list']);
+  }
   }
 
   loginUser(username: string, password: string): Observable<any> {

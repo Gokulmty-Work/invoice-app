@@ -1,4 +1,4 @@
 export const environment = {
     production: true,
-    apiUrl: 'https://invoicemgmt.onrender.com/inv'
+    apiUrl: 'http://invoice-application-env.us-east-1.elasticbeanstalk.com/inv'
 };
