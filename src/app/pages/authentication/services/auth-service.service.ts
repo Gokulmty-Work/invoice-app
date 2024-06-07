@@ -24,8 +24,15 @@ export class AuthServiceService {
       if (localStorageData) {
         this.setUserData(JSON.parse(localStorageData));
       }
-      // this.router.navigate(['home/list']);
-  }
+
+      const currentRoute = this.router.url; 
+      console.log('route',currentRoute);
+      if (currentRoute && currentRoute !== '/') {
+        this.router.navigateByUrl(currentRoute);
+      } else {
+        this.router.navigate(['home/list']);
+      }
+      }
   }
 
   loginUser(username: string, password: string): Observable<any> {
