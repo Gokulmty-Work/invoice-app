@@ -48,4 +48,8 @@ export class InvoiceServiceService {
   getConfigData(){
     return this.http.get<any>(`${this.apiUrlParameter}/appParameter/`);
   }
+
+  getInvoiceCount(){
+    return this.http.get<any>(`${this.apiUrl}/getInvoicesCount`);
+  }
 }

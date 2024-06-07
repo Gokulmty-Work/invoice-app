@@ -2,8 +2,8 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { InvoiceServiceService } from '../services/invoice-service.service';
-// import jsPDF from 'jspdf';
-
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 
 @Component({
   selector: 'app-invoice-preview',
@@ -33,7 +33,7 @@ export class InvoicePreviewComponent implements OnInit{
     this.invoiceService.getInvoice(invoiceId).subscribe(
       {
         next: (response) => {
-          console.log(response);
+          // console.log(response);
           this.setValue(response);
         },
         error: (error) => {
@@ -89,13 +89,14 @@ export class InvoicePreviewComponent implements OnInit{
     }
     this.invoiceData = data;
 
-     setTimeout(() => this.printPage(), 5000);
+    //  setTimeout(() => this.printPage(), 5000);
   }
 
   printPage(){
-    this.isDisplayed = true;
-    window.print();
-    this.isDisplayed = false;
+    // this.isDisplayed = true;
+    // window.print();
+    this.openPDF();
+    // this.isDisplayed = false;
   }
 
   ngAfterContentInit(): void{
@@ -106,33 +107,77 @@ export class InvoicePreviewComponent implements OnInit{
     this.location.back();
   }
 
-//   public openPDF(): void {
-//     this.isDisplayed = true;
-//     const pdf = new jsPDF('p', 'pt', 'letter');
-//     const contentElement = document.getElementById('print-sheet');
-// const hiddenElement = contentElement?.querySelector('.print-sheet')as HTMLElement;
-// if(hiddenElement){
-//   hiddenElement.style.display = 'block';
-//   hiddenElement.style.fontSize = '10px';
-// }
+  public openPDF(): void {
+    const contentElement = document.getElementById('print-sheet2');
+    // this.isDisplayed = true;
+    // if(contentElement){
+    //   this.adjustFontSize(contentElement, '12px');
+    // }
+    const pdf = new jsPDF('p', 'pt', 'letter');
 
-//     const options = {
-//       html2canvas: {},
-//       callback: () => {
-//         pdf.save('invoice.pdf');
-//       }
-//     };
-//     const content = this.pdfContent.nativeElement;
-//     if(contentElement){
-//     pdf.html(contentElement, {
-//       callback: () => {
-//         pdf.save('invoice.pdf');
-//       }
-//     });
-//   }else{
-//     console.log('empty');
-//   }
-//   this.isDisplayed = false;
-//   }
+
+    const margins = {
+      top: 30,
+      left: 30,
+      bottom: 30,
+      right: 30
+    };
+
+    // Define the width and height of the PDF page
+    const pageWidth = pdf.internal.pageSize.getWidth();
+    const pageHeight = pdf.internal.pageSize.getHeight();
+
+    // Calculate the usable width and height
+    const usableWidth = pageWidth - margins.left - margins.right;
+    const usableHeight = pageHeight - margins.top - margins.bottom;
+
+    if(contentElement){
+      html2canvas(contentElement, {
+        scale: 2
+      }).then((canvas) => {
+        const imgData = canvas.toDataURL('image/jpeg', 1.0);
+  
+        // Calculate the image width and height to fit within the usable area
+        const imgWidth = usableWidth;
+        const imgHeight = (canvas.height * usableWidth) / canvas.width;
+  
+        // Add the image to the PDF with the specified margins
+        pdf.addImage(imgData, 'JPEG', margins.left, margins.top, imgWidth, imgHeight);
+  
+        // Save the PDF
+        pdf.save('Invoice-'+this.invoiceData.invoiceNumber);
+      }).catch((error) => {
+        console.error('Error generating PDF:', error);
+      });
+    }
+    
+  //   const options = {
+  //     html2canvas: {},
+  //     callback: () => {
+  //       pdf.save('invoice.pdf');
+  //     }
+  //   };
+  //   const content = this.pdfContent.nativeElement;
+  //   if(contentElement){
+  //   pdf.html(contentElement, {
+  //     callback: () => {
+  //       pdf.save('invoice.pdf');
+  //     }
+  //   });
+  // }else{
+  //   console.log('empty');
+  // }
+  // this.isDisplayed = false;
+  }
+
+  adjustFontSize(content: HTMLElement, fontSize: string) {
+    // Get all elements within the content element
+    const elements = content.querySelectorAll('*');
+
+    // Set font size for each element
+    elements.forEach((element: any) => {
+      element.style.fontSize = fontSize;
+    });
+  }
 
 }

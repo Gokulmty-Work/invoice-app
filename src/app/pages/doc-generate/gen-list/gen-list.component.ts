@@ -8,6 +8,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { InvoiceServiceService } from '../services/invoice-service.service';
 import { DatePipe } from '@angular/common';
 import { SharedService } from 'src/app/services/shared.service';
+import { forkJoin } from 'rxjs';
 
 
 export interface Transaction {
@@ -67,25 +68,47 @@ export class GenListComponent implements OnInit{
   getInvoiceData(){
     const currentPage = this.paginator.pageIndex || 0;
     const pageSize = this.paginator.pageSize || 10;
-    this.invoiceService.getInvoiceList(currentPage,pageSize).subscribe(
-      {
-        next: (response) => {
-          if(response && response.length){
+
+    forkJoin({
+      filterData: this.invoiceService.getInvoiceList(currentPage,pageSize),
+      invoiceCount: this.invoiceService.getInvoiceCount()
+    }).subscribe({
+        next: ({filterData, invoiceCount}) => {
+          if(filterData && filterData.length){
           this.isTableEmpty = false;
-          const modifiedResponseArray = this.modifyResponseArray(response);
+          const modifiedResponseArray = this.modifyResponseArray(filterData);
           this.dataSource.data = modifiedResponseArray;
-          this.dataSource.length = 15;
+          this.paginator.length = invoiceCount;
           // this.initializePaginator();
-          this.totalData = 15;
-          }else {
+        }else {
           this.isTableEmpty = true;
           }
         },
         error: (error) => {
           console.log('Error',error);
         }
-      }
-    );
+      });
+
+
+    // this.invoiceService.getInvoiceList(currentPage,pageSize).subscribe(
+    //   {
+    //     next: (response) => {
+    //       if(response && response.length){
+    //       this.isTableEmpty = false;
+    //       const modifiedResponseArray = this.modifyResponseArray(response);
+    //       this.dataSource.data = modifiedResponseArray;
+    //       this.dataSource.length = 15;
+    //       // this.initializePaginator();
+    //       this.totalData = 15;
+    //       }else {
+    //       this.isTableEmpty = true;
+    //       }
+    //     },
+    //     error: (error) => {
+    //       console.log('Error',error);
+    //     }
+    //   }
+    // );
   }
 
   modifyResponseArray(response: any){
@@ -103,14 +126,17 @@ export class GenListComponent implements OnInit{
     this.filterEvent = event;
     const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
     if(filterValue){
-      this.invoiceService.filterData(filterValue).subscribe(
-        {
-          next: (response) => {
-            if(response && response.length){
+
+      forkJoin({
+        filterData: this.invoiceService.filterData(filterValue),
+        invoiceCount: this.invoiceService.getInvoiceCount()
+      }).subscribe({
+          next: ({filterData, invoiceCount}) => {
+            if(filterData && filterData.length){
             this.isTableEmpty = false;
-            const modifiedResponseArray = this.modifyResponseArray(response);
+            const modifiedResponseArray = this.modifyResponseArray(filterData);
             this.dataSource.data = modifiedResponseArray;
-            this.paginator.length = 15;
+            this.paginator.length = invoiceCount;
             // this.initializePaginator();
           }else {
             this.isTableEmpty = true;
@@ -120,6 +146,25 @@ export class GenListComponent implements OnInit{
             console.log('Error',error);
           }
         });
+
+
+      // this.invoiceService.filterData(filterValue).subscribe(
+      //   {
+      //     next: (response) => {
+      //       if(response && response.length){
+      //       this.isTableEmpty = false;
+      //       const modifiedResponseArray = this.modifyResponseArray(response);
+      //       this.dataSource.data = modifiedResponseArray;
+      //       this.paginator.length = 15;
+      //       // this.initializePaginator();
+      //     }else {
+      //       this.isTableEmpty = true;
+      //       }
+      //     },
+      //     error: (error) => {
+      //       console.log('Error',error);
+      //     }
+      //   });
     }else {
       this.getInvoiceData();
       this.filterEvent = '';
@@ -140,24 +185,43 @@ export class GenListComponent implements OnInit{
       const startDate = this.formatDate(startDateControl.value);
       const endDate = this.formatDate(endDateControl.value);
 
-      this.invoiceService.dateRangeSearch(startDate,endDate).subscribe(
-        {
-          next: (response) => {
-            if(response && response.length){
+      forkJoin({
+        dateRangeSearch: this.invoiceService.dateRangeSearch(startDate, endDate),
+        invoiceCount: this.invoiceService.getInvoiceCount()
+      }).subscribe({
+        next: ({ dateRangeSearch, invoiceCount }) => {
+          if (dateRangeSearch && dateRangeSearch.length) {
             this.isTableEmpty = false;
-            const modifiedResponseArray = this.modifyResponseArray(response);
-          this.dataSource.data = modifiedResponseArray;
-          this.paginator.length = 15;
-          // this.initializePaginator();
-        }else {
-          this.isTableEmpty = true;
+            const modifiedResponseArray = this.modifyResponseArray(dateRangeSearch);
+            this.dataSource.data = modifiedResponseArray;
+            this.paginator.length = invoiceCount; 
+          } else {
+            this.isTableEmpty = true;
           }
-          },
-          error: (error) => {
-            console.log('Error',error);
-          }
+        },
+        error: (error) => {
+          console.log('Error', error);
         }
-      );
+      });
+
+      // this.invoiceService.dateRangeSearch(startDate,endDate).subscribe(
+      //   {
+      //     next: (response) => {
+      //       if(response && response.length){
+      //       this.isTableEmpty = false;
+      //       const modifiedResponseArray = this.modifyResponseArray(response);
+      //     this.dataSource.data = modifiedResponseArray;
+      //     this.paginator.length = 15;
+      //     // this.initializePaginator();
+      //   }else {
+      //     this.isTableEmpty = true;
+      //     }
+      //     },
+      //     error: (error) => {
+      //       console.log('Error',error);
+      //     }
+      //   }
+      // );
     } else {
     //   this.dataSource.filter = '';
     //   this.dataSource = new MatTableDataSource<DisplayFields>([]);
@@ -208,6 +272,7 @@ export class GenListComponent implements OnInit{
         next: (response) => {
           console.log('Deleted',response);
           this.sharedService.openSnackBar('Invoice Deleted');
+          this.getInvoiceData();
         },
         error: (error) => {
           console.log('Error',error);

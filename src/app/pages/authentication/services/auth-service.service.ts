@@ -24,13 +24,13 @@ export class AuthServiceService {
       if (localStorageData) {
         this.setUserData(JSON.parse(localStorageData));
       }
-      const currentRoute = this.router.url; 
-      console.log('route',currentRoute);
-      if (currentRoute && currentRoute !== '/') {
-        this.router.navigateByUrl(currentRoute);
-      } else {
-        this.router.navigate(['home/list']);
-      }
+      // const currentRoute = this.router.url; 
+      // console.log('route',currentRoute);
+      // if (currentRoute && currentRoute !== '/') {
+      //   this.router.navigateByUrl(currentRoute);
+      // } else {
+      //   this.router.navigate(['home/list']);
+      // }
       // this.router.navigate(['home/list']);
   }
   }
@@ -45,7 +45,7 @@ export class AuthServiceService {
   }
 
   setUserData(userData: any) {
-    console.log('Herer',userData);
+    // console.log('Herer',userData);
     this.isAuth.next(true);
     this.userData = userData;
   }

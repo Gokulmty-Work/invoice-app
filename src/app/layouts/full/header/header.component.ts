@@ -41,6 +41,9 @@ export class HeaderComponent implements OnInit{
   ngOnInit(): void {
     this.getUserData();
     this.getProfileImg();
+    this.sharedService.uploadSuccess$.subscribe(() => {
+      this.getProfileImg();
+    });
   }
 
   getUserData(): any {

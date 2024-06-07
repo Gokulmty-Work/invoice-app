@@ -97,7 +97,7 @@ export class CreateInvoiceComponent {
     this.invoiceService.getConfigData().subscribe(
       {
         next: (response) => {
-          console.log('Resp',response);
+          // console.log('Resp',response);
           response.forEach((item: any) => {
             this.configData[item.keyField] = item.keyValue;
           });
@@ -113,7 +113,7 @@ export class CreateInvoiceComponent {
     this.invoiceService.getInvoice(invoiceId).subscribe(
       {
         next: (response) => {
-          console.log(response);
+          // console.log(response);
           this.setValue(response);
         },
         error: (error) => {
@@ -125,7 +125,7 @@ export class CreateInvoiceComponent {
 
   setValue(data: any){
     if(!data.id){
-      console.log('Test Values');
+      // console.log('Test Values');
        data = {
       id:1,
       invoiceNumber: '2022/1',
@@ -334,7 +334,7 @@ export class CreateInvoiceComponent {
       this.invoiceService.createInvoice(formData).subscribe(
         {
           next: (response) => {
-            console.log('Created successfully:', response);
+            // console.log('Created successfully:', response);
             this.openSnackBar('Invoice Created');
             if(this.isPrint){
               this.printInvoice(response);
@@ -350,7 +350,7 @@ export class CreateInvoiceComponent {
         this.invoiceService.updateInvoice(formData, this.invoiceId).subscribe(
           {
             next: (response) => {
-              console.log('Updated successfully:', response);
+              // console.log('Updated successfully:', response);
               this.openSnackBar('Invoice Updated');
               if(this.isPrint){
                 this.printInvoice(response);

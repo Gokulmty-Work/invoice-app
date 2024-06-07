@@ -122,7 +122,8 @@ export class ProfileComponent implements OnInit{
     {
       next: (response) => {
         this.selectedFile = '';
-        console.log('File uploaded successfully:', response);
+        this.openSnackBar('File Uploaded', 'Dismiss');
+        this.sharedService.emitUploadSuccess();
       },
       error: (error: any) => {
       console.error('Error:', error);
@@ -143,7 +144,7 @@ getProfileImg(){
         this.selectedFile =  (this.sanitizer.bypassSecurityTrustResourceUrl(objectURL) as any).changingThisBreaksApplicationSecurity;
       },
       error: (error: any) => {
-      console.error('Error:', error);
+      console.log('Image Not Found');
       // this.openSnackBar(error, 'Dismiss');
        },
     }
