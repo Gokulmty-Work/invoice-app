@@ -4,6 +4,8 @@ import { ActivatedRoute } from '@angular/router';
 import { InvoiceServiceService } from '../services/invoice-service.service';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
+import html2PDF from 'html2canvas';
+import jspdf from 'jspdf';
 
 @Component({
   selector: 'app-invoice-preview',
@@ -15,6 +17,18 @@ export class InvoicePreviewComponent implements OnInit{
   invoiceId: string | null = null;
   invoiceData: any | null = null;
   isDisplayed: boolean = false;
+  isGenerating = false;
+  recordsPerPage: number = 15;
+  lastPageRecords: number = 12;
+  
+  pdf!: jsPDF;
+  HTML_Width: number = 0;
+  HTML_Height: number = 0;
+  top_left_margin = 15;
+  PDF_Width!: number;
+  PDF_Height: number = 0;
+  canvas_image_width: number = 0;
+  canvas_image_height: number = 0;
     
   constructor(private location: Location, 
     private route: ActivatedRoute,
@@ -88,6 +102,9 @@ export class InvoicePreviewComponent implements OnInit{
       };
     }
     this.invoiceData = data;
+    if(this.invoiceData.length > 12 && this.invoiceData.length < 17){
+
+    }
 
     //  setTimeout(() => this.printPage(), 5000);
   }
@@ -109,40 +126,34 @@ export class InvoicePreviewComponent implements OnInit{
 
   public openPDF(): void {
     const contentElement = document.getElementById('print-sheet2');
-    // this.isDisplayed = true;
-    // if(contentElement){
-    //   this.adjustFontSize(contentElement, '12px');
-    // }
-    const pdf = new jsPDF('p', 'pt', 'letter');
-
-
-    const margins = {
-      top: 30,
-      left: 30,
-      bottom: 30,
-      right: 30
-    };
-
-    // Define the width and height of the PDF page
-    const pageWidth = pdf.internal.pageSize.getWidth();
-    const pageHeight = pdf.internal.pageSize.getHeight();
-
-    // Calculate the usable width and height
-    const usableWidth = pageWidth - margins.left - margins.right;
-    const usableHeight = pageHeight - margins.top - margins.bottom;
 
     if(contentElement){
-      html2canvas(contentElement, {
-        scale: 2
-      }).then((canvas) => {
-        const imgData = canvas.toDataURL('image/jpeg', 1.0);
+      const htmlWidth = contentElement.clientWidth;
+      const htmlHeight = contentElement.clientHeight;
   
-        // Calculate the image width and height to fit within the usable area
-        const imgWidth = usableWidth;
-        const imgHeight = (canvas.height * usableWidth) / canvas.width;
+      const topLeftMargin = 35;
   
-        // Add the image to the PDF with the specified margins
-        pdf.addImage(imgData, 'JPEG', margins.left, margins.top, imgWidth, imgHeight);
+      let pdfWidth = htmlWidth + (topLeftMargin * 2);
+      let pdfHeight = (pdfWidth * 1.5) + (topLeftMargin * 2);
+  
+      const canvasImageWidth = htmlWidth;
+      const canvasImageHeight = htmlHeight;
+  
+      const totalPDFPages = Math.ceil(htmlHeight / pdfHeight) - 1;
+  
+      const data = document.getElementById('print-sheet2');
+      if(data)
+      html2canvas(data, { allowTaint: true }).then(canvas => {
+  
+        canvas.getContext('2d');
+        const imgData = canvas.toDataURL("image/jpeg", 1.0);
+        let pdf = new jsPDF('p', 'pt', [pdfWidth, pdfHeight]);
+        pdf.addImage(imgData, 'jpeg', topLeftMargin, topLeftMargin, canvasImageWidth, canvasImageHeight);
+  
+        for (let i = 1; i <= totalPDFPages; i++) {
+          pdf.addPage([pdfWidth, pdfHeight], 'p');
+          pdf.addImage(imgData, 'jpeg', topLeftMargin, - (pdfHeight * i) + (topLeftMargin * 4), canvasImageWidth, canvasImageHeight);
+        }
   
         // Save the PDF
         pdf.save('Invoice-'+this.invoiceData.invoiceNumber);
@@ -150,24 +161,6 @@ export class InvoicePreviewComponent implements OnInit{
         console.error('Error generating PDF:', error);
       });
     }
-    
-  //   const options = {
-  //     html2canvas: {},
-  //     callback: () => {
-  //       pdf.save('invoice.pdf');
-  //     }
-  //   };
-  //   const content = this.pdfContent.nativeElement;
-  //   if(contentElement){
-  //   pdf.html(contentElement, {
-  //     callback: () => {
-  //       pdf.save('invoice.pdf');
-  //     }
-  //   });
-  // }else{
-  //   console.log('empty');
-  // }
-  // this.isDisplayed = false;
   }
 
   adjustFontSize(content: HTMLElement, fontSize: string) {
@@ -180,4 +173,97 @@ export class InvoicePreviewComponent implements OnInit{
     });
   }
 
+  private calculatePDFHeightWidth(selector: HTMLElement) {
+    this.HTML_Width = selector.offsetWidth;
+    this.HTML_Height = selector.offsetHeight;
+    this.PDF_Width = this.HTML_Width + (this.top_left_margin * 2);
+    this.PDF_Height = (this.PDF_Width * 1.2) + (this.top_left_margin * 2);
+    this.canvas_image_width = this.HTML_Width;
+    this.canvas_image_height = this.HTML_Height;
+  }
+
+  generatePDF(elements: HTMLElement[]) {
+    this.pdf = new jsPDF('p', 'pt', 'a4');
+    this.pdf.setFontSize(2);
+    let promise = Promise.resolve();
+
+    elements.forEach((element, index) => {
+      promise = promise.then(() => {
+        return html2canvas(element, {
+          allowTaint: true,
+          scale: 2 // Adjust the scale to improve performance
+        }).then(canvas => {
+          this.calculatePDFHeightWidth(element);
+
+          const imgData = canvas.toDataURL('image/jpeg', 0.75); // Lower image quality to 75%
+          if (index > 0) {
+            this.pdf.addPage();
+          }
+          this.pdf.addImage(imgData, 'JPEG', this.top_left_margin, this.top_left_margin, this.HTML_Width, this.HTML_Height);
+        });
+      });
+    });
+
+    promise.then(() => {
+      // Save the PDF
+      this.pdf.save('Invoice-'+this.invoiceData.invoiceNumber);
+      this.isGenerating = false;
+
+      // Generate BLOB object
+      // const blob = this.pdf.output('blob');
+
+      // Getting URL of blob object
+      // const blobURL = URL.createObjectURL(blob);
+
+      // Show PDF in iframe
+      // const iframe = document.getElementById('sample-pdf') as HTMLIFrameElement;
+      // iframe.src = blobURL;
+
+      // Set download link
+      // const downloadLink = document.getElementById('pdf-download-link') as HTMLAnchorElement;
+      // downloadLink.href = blobURL;
+    }).catch(error => {
+      console.error('Error generating PDF:', error);
+      this.isGenerating = false;
+    });
+  }
+
+  generatePDFPrint() {
+    this.isGenerating = true;
+    const elements = Array.from(document.getElementsByClassName('print-wrap')) as HTMLElement[];
+    this.generatePDF(elements);
+  }
+
+  getTotalAmountForPage(pageNumber: number): number {
+    const records = this.getRecordsForPage(pageNumber);
+    return records.reduce((total, record) => total + record.amount, 0);
+  }
+
+  shouldShowBoxes(pageIndex: number): boolean {
+    return pageIndex === this.getNumberOfPages() - 1;
+  }
+
+  getNumberOfPages(): number {
+    const totalRecords = this.invoiceData.invoiceLineItems.length;
+    const fullPages = Math.floor(totalRecords / this.recordsPerPage);
+    const remainder = totalRecords % this.recordsPerPage;
+    return fullPages + (remainder > 0 ? 1 : 0);
+  }
+
+  getRecordsForPage(pageNumber: number): any[] {
+    const startIndex = (pageNumber - 1) * this.recordsPerPage;
+    let endIndex = startIndex + this.recordsPerPage;
+    if (endIndex > this.invoiceData.invoiceLineItems.length) {
+      endIndex = this.invoiceData.invoiceLineItems.length;
+    }
+    const records = this.invoiceData.invoiceLineItems.slice(startIndex, endIndex);
+    while (records.length < this.recordsPerPage) {
+      records.push({ id: '', description: '', amount: '' }); 
+    }
+    return records;
+  }
+
+  createRange(number: number): number[] {
+    return new Array(number).fill(0).map((_, i) => i);
+  }
 }

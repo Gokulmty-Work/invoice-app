@@ -141,6 +141,25 @@ tfoot {
 .mat-checkbox-background {
   background-color: #004286; /* Darker color for the checkbox when unchecked */
 }
+
+.input-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.prefix {
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: #757575; /* Optional: Style the color of the prefix */
+}
+
+input[matInput] {
+  padding-left: 25px; /* Adjust this value as needed */
+  box-sizing: border-box; /* Ensure padding is included in the element's total width */
+}
   
 //   .mat-table {
 //     width: 100%;

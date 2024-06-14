@@ -17,7 +17,7 @@ mat-card-content {
   .print-button-style {
     margin-top: 1rem;
     margin-bottom: 2rem !important;
-    margin-left: 18rem;
+    margin-left: 14rem;
   } 
 
   .invoice-address-container {
@@ -41,7 +41,7 @@ mat-card-content {
   }
 
   .invoice-address-table {
-    width: 100%;
+    width: 97%;
     border-collapse: collapse;
     // margin-left: -96px;
   }
@@ -51,6 +51,12 @@ mat-card-content {
     padding: 0;
     vertical-align: top;
     width: 8rem;
+  }
+
+  .contd {
+    bottom: 10px;
+    right: 10px;
+    font-size: 12px;
   }
   
   

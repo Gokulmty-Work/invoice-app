@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CofigServiceService } from '../services/cofig-service.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { SnackbarComponent } from '../../doc-generate/snackbar/snackbar.component';
 
 @Component({
   selector: 'app-config',
@@ -12,7 +14,7 @@ export class ConfigComponent {
   userForm!: FormGroup;
   responseData: any;
 
-  constructor(private formBuilder: FormBuilder, private configService: CofigServiceService) { }
+  constructor(private formBuilder: FormBuilder, private configService: CofigServiceService, private _snackBar: MatSnackBar) { }
 
   ngOnInit(): void {   
     this.getUserData();
@@ -93,6 +95,7 @@ export class ConfigComponent {
           next: (response) => {
            console.log('Updated1', response);
            this.getUserData();
+      this.openSnackBar('Configuration Data Updated', 'Dismiss');
             },
             error: (error: any) => {
             console.error('Error Creating Field:', error);
@@ -105,6 +108,8 @@ export class ConfigComponent {
           next: (response) => {
            console.log('Updated1', response);
            this.getUserData();
+      this.openSnackBar('Configuration Data Updated', 'Dismiss');
+
             },
             error: (error: any) => {
             console.error('Error Creating Field:', error);
@@ -121,6 +126,8 @@ export class ConfigComponent {
             next: (response) => {
              console.log('Created', response);
              this.getUserData();
+      this.openSnackBar('Configuration Data Updated', 'Dismiss');
+
               },
               error: (error: any) => {
               console.error('Error Creating Field:', error);
@@ -140,5 +147,12 @@ export class ConfigComponent {
       }
     }
     return convertedData;
+  }
+
+  openSnackBar(message: string, action: string) {
+    this._snackBar.openFromComponent(SnackbarComponent, {
+      data: { message: message},
+      duration: 3000,
+    });
   }
 }

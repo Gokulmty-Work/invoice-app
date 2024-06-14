@@ -1,5 +1,5 @@
 import { Component, HostListener } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router, NavigationStart, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -23,6 +23,7 @@ export class CreateInvoiceComponent {
   invoiceId: string | null = null;
   isPrint: boolean = false;
   configData: any;
+  invoiceData: any;
   
   constructor(private fb: FormBuilder,
     private _snackBar: MatSnackBar, 
@@ -91,9 +92,9 @@ export class CreateInvoiceComponent {
 
   getConfigData(){
     this.configData = {
-      companyName: 'Creative Cute Options INC.',
-      invoiceSerial: 'Serial Number'
-    }
+      companyName: '',
+      invoiceSerial: ''
+    };
     this.invoiceService.getConfigData().subscribe(
       {
         next: (response) => {
@@ -103,6 +104,10 @@ export class CreateInvoiceComponent {
           });
         },
         error: (error) => {
+          this.configData = {
+            companyName: 'Creative Cute Options INC.',
+            invoiceSerial: 'Serial Number'
+          };
           console.log(error);
         }
       }
@@ -114,6 +119,7 @@ export class CreateInvoiceComponent {
       {
         next: (response) => {
           // console.log(response);
+          this.invoiceData = response;
           this.setValue(response);
         },
         error: (error) => {
@@ -181,7 +187,7 @@ export class CreateInvoiceComponent {
       terms: data.terms,
       salesman: data.salesman,
       frieghtDesc: data.frieightDescription,
-      frieghtAmount: data.frieghtCharges,
+      frieghtAmount: data.frieghtCharges? data.frieghtCharges : 0.00,
       includeTaxes: data.taxRequired,
       taxDesc: data.taxDescription,
       taxValue: data.taxPercent,
@@ -202,7 +208,7 @@ export class CreateInvoiceComponent {
         quantityOrdered: [item.quantityOrdered],
         quantityShipped: [item.quantityShipped],
         unitPrice: [item.unitPrice],
-        amount: [item.amount]
+        amount: [item.amount.toLocaleString(undefined, { style: 'currency', currency: 'USD' })]
       }));
     });
   }
@@ -232,7 +238,7 @@ export class CreateInvoiceComponent {
   //   let total = 0;
   //   control.controls.forEach((orderGroup) => {
   //     const amount = orderGroup.get('quantityShipped')?.value || 0;
-  //     total += parseInt(amount);
+  //     total += parseFloat(amount);
   //   });
   //   return total;
   // }
@@ -248,7 +254,7 @@ export class CreateInvoiceComponent {
       const totalAmount = quantityShipped * unitPrice;
       total += totalAmount;
     });
-    frieghtAmount = parseInt(this.ordersForm.get('frieghtAmount')?.value) || 0;
+    frieghtAmount = parseFloat(this.ordersForm.get('frieghtAmount')?.value) || 0;
     total += frieghtAmount;
       if(this.includeTaxesControl?.value){
         const taxValue = this.ordersForm.get('taxValue')?.value || 0;
@@ -259,19 +265,19 @@ export class CreateInvoiceComponent {
 
   get totalAmount(): number {
     const control = this.ordersForm.get('orders') as FormArray;
-    let total = 0;
-    let frieghtAmount = 0;
-    let taxAmount = 0;
+    let total = 0.00;
+    let frieghtAmount = 0.00;
+    let taxAmount = 0.00;
     control.controls.forEach((orderGroup) => {
-      const quantityShipped = orderGroup.get('quantityShipped')?.value || 0;
-      const unitPrice = orderGroup.get('unitPrice')?.value || 0;
+      const quantityShipped = orderGroup.get('quantityShipped')?.value || 0.00;
+      const unitPrice = orderGroup.get('unitPrice')?.value || 0.00;
       const totalAmount = quantityShipped * unitPrice;
       total += totalAmount;
     });
-    frieghtAmount = parseInt(this.ordersForm.get('frieghtAmount')?.value) || 0;
+    frieghtAmount = parseFloat(this.ordersForm.get('frieghtAmount')?.value) || 0.00;
     total += frieghtAmount;
       if(this.includeTaxesControl?.value){
-        const taxValue = this.ordersForm.get('taxValue')?.value || 0;
+        const taxValue = this.ordersForm.get('taxValue')?.value || 0.00;
         taxAmount = ( taxValue / 100 ) * total;
         total += taxAmount; 
       }
@@ -281,6 +287,14 @@ export class CreateInvoiceComponent {
   deleteRow(index: number) {
     const control = this.ordersForm.get('orders') as FormArray;
     control.removeAt(index);
+    this.markFormGroupPristine(this.ordersForm);
+  }
+
+  markFormGroupPristine(formGroup: FormGroup) {
+    Object.keys(formGroup.controls).forEach(key => {
+      const control = formGroup.get(key);
+      if(control)control.markAsDirty();
+    });
   }
 
   calculateAmount(index: number): string {
@@ -369,6 +383,14 @@ export class CreateInvoiceComponent {
     }
   }
 
+  removeCurrencyFormatting(currencyString: string): number {
+    if (currencyString.includes('$')) {
+      const numericString = currencyString.replace(/[^0-9.-]+/g, '');
+      return parseFloat(numericString);
+    }
+    return parseFloat(currencyString);
+  }
+
   modifyInputData(data:any){
     const invoiceLineItems = data.orders.map((order: any) => ({
       id: order.id,
@@ -395,17 +417,21 @@ export class CreateInvoiceComponent {
       taxRequired: this.includeTaxesControl?.value,
       taxPercent: +data.taxValue,
       taxDescription: data.taxDesc,
-      frieghtCharges: +data.frieghtAmount,
+      frieghtCharges: data.frieghtAmount,
       frieightDescription: data.frieghtDesc,
       totalPreTax: this.totalAmount-this.taxAmount,
-      totalAfterTax: this.totalAmount+this.taxAmount,
+      totalAfterTax: this.totalAmount,
       invoiceLineItems: invoiceLineItems
     };
   }
 
   printSave(){
-    this.createForm();
     this.isPrint = true;
+    if(this.ordersForm.pristine && this.invoiceData){
+      this.printInvoice(this.invoiceData);
+    }else {
+      this.createForm();
+    }
   }
 
   printInvoice(data: any){

@@ -113,7 +113,7 @@
                 <input matInput placeholder="Quantity Shipped" formControlName="quantityShipped" autocomplete="off" appNumbersOnly>
               </td>
               <td>
-                <input matInput placeholder="Unit Price" formControlName="unitPrice" appNumbersOnly autocomplete="off">
+                  <input matInput placeholder="Unit Price" formControlName="unitPrice" appNumbersOnly autocomplete="off">
               </td>
               <td>
                 <input matInput placeholder="Amount" formControlName="amount" [value]="calculateAmount(i)" readonly>
@@ -171,7 +171,7 @@
         </table>
         <div class="buttons">
           <button mat-flat-button color="primary" type="submit" class="action-button" [disabled]="ordersForm.pristine">Save</button>
-<button mat-flat-button color="primary" (click)="printSave()" class="action-button" [disabled]="ordersForm.pristine && !this.editMode">{{ ordersForm.pristine ? 'Print' : 'Save & Print' }}</button>
+<button mat-flat-button color="primary" type="button" (click)="printSave()" class="action-button" [disabled]="ordersForm.pristine && !this.editMode">{{ ordersForm.pristine ? 'Preview' : 'Save & Preview' }}</button>
         </div>
       </form>
         
