@@ -40,38 +40,42 @@ export class DocGenService {
         // Output the document using FileSaver
         saveAs(out, "Invoice-"+ data.invoiceNumber);
 
-        const formData = new FormData();
-        formData.append('file', out);
-        const headers = new HttpHeaders({
-          'Authorization': 'Bearer your_token_here' // Example header
-        });
-        this.http.post(`${this.apiUrl}/doc/convertDocToPDF`, formData, { headers: headers, responseType: 'blob'  }).subscribe(
-          {
-            next: (response: Blob) => {
-              console.log(response);
+
+        // --- Print PDF 
+
+        // const formData = new FormData();
+        // formData.append('file', out);
+        // const headers = new HttpHeaders({
+        //   'Authorization': 'Bearer your_token_here' // Example header
+        // });
+        // this.http.post(`${this.apiUrl}/doc/convertDocToPDF`, formData, { headers: headers, responseType: 'blob'  }).subscribe(
+        //   {
+        //     next: (response: Blob) => {
+        //       console.log(response);
+        //       -------------------------------
               // window.open("data:application/pdf," + escape(error.error.text));
               // var mediaType = 'application/pdf';
               // var blob = new Blob([response], {type: mediaType});
 
               // var filename = 'test.pdf';
               // saveAs(response, filename);
+        //     ----------------------
+        //       const blobUrl = URL.createObjectURL(response);
+        // const printWindow = window.open(blobUrl);
 
-              const blobUrl = URL.createObjectURL(response);
-        const printWindow = window.open(blobUrl);
-
-        if (printWindow) {
-          printWindow.onload = () => {
-            printWindow.focus();
-            printWindow.print();
-            URL.revokeObjectURL(blobUrl); // Clean up the URL object
-          };
-        }
-            },
-            error: (error) => {
-              console.log(error);
-            }
-          }
-        );
+        // if (printWindow) {
+        //   printWindow.onload = () => {
+        //     printWindow.focus();
+        //     printWindow.print();
+        //     URL.revokeObjectURL(blobUrl); // Clean up the URL object
+        //   };
+        // }
+        //     },
+        //     error: (error) => {
+        //       console.log(error);
+        //     }
+        //   }
+        // );
         });
   }
 
