@@ -99,7 +99,7 @@
             </tr>
           </thead>
           <tbody formArrayName="orders">
-            <tr *ngFor="let order of orders; let i = index" [formGroupName]="i">
+            <tr *ngFor="let order of orders; let i = index" [formGroupName]="i" (keydown)="preventEnterKey($event)">
               <td>
                 <input #inputToFocus matInput placeholder="Style #" formControlName="orderNumber">
               </td>
@@ -113,7 +113,7 @@
                 <input matInput placeholder="Quantity Shipped" formControlName="quantityShipped" autocomplete="off" appNumbersOnly>
               </td>
               <td>
-                  <input matInput placeholder="Unit Price" formControlName="unitPrice" appNumbersOnly autocomplete="off">
+                <input matInput placeholder="Unit Price" formControlName="unitPrice" appNumbersOnly autocomplete="off">
               </td>
               <td>
                 <input matInput placeholder="Amount" formControlName="amount" [value]="calculateAmount(i)" readonly>
@@ -126,7 +126,7 @@
                   <mat-icon>delete</mat-icon>
                 </button>
               </td>
-            </tr>
+            </tr>            
           </tbody>
           <tfoot>
             <tr>
@@ -165,6 +165,13 @@
             <tr>
               <td colspan="5" class="footer-label">Total:</td>
               <td class="footer-value">{{ totalAmount | currency }}</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td colspan="2" class="footer-label">Special Instructions:</td>
+              <td colspan="4" class="footer-label">
+                <input matInput placeholder="Special Instructions" formControlName="specialInstructions">
+              </td>
               <td></td>
             </tr>
           </tfoot>

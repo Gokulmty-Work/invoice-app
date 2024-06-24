@@ -37,7 +37,8 @@
             <ng-container matColumnDef="invoceNumber">
               <th mat-header-cell *matHeaderCellDef mat-sort-header> Invoice Number </th>
               <td mat-cell *matCellDef="let element" class="table-style">
-                <a [routerLink]="['/home/add-new']" class="link-text">{{ element.invoiceNumber }}</a>
+                {{ element.invoiceNumber }}
+                <!-- <a [routerLink]="['/home/add-new']" class="link-text">{{ element.invoiceNumber }}</a> -->
                 </td>
             </ng-container>
           

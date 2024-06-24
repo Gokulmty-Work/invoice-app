@@ -50,7 +50,8 @@ export class CreateInvoiceComponent {
       includeTaxes: [false],
       taxDesc: [{value:'', disabled: true}],
       taxValue:[{value:'', disabled: true}],
-      totalBoxes: ['']
+      totalBoxes: [''],
+      specialInstructions:['MAKE CHECKS PAYABLE : CREATIVE CUTE  OPTIONS ONLY!!!!!']
     });
 
     this.includeTaxesControl?.valueChanges.subscribe(checked => {
@@ -191,7 +192,8 @@ export class CreateInvoiceComponent {
       includeTaxes: data.taxRequired,
       taxDesc: data.taxDescription,
       taxValue: data.taxPercent,
-      totalBoxes: data.boxes
+      totalBoxes: data.boxes,
+      specialInstructions: data.specialInstructions
     });
 
     this.setInvoiceLineItems(data.invoiceLineItems);
@@ -421,7 +423,8 @@ export class CreateInvoiceComponent {
       frieightDescription: data.frieghtDesc,
       totalPreTax: this.totalAmount-this.taxAmount,
       totalAfterTax: this.totalAmount,
-      invoiceLineItems: invoiceLineItems
+      invoiceLineItems: invoiceLineItems,
+      specialInstructions: data.specialInstructions
     };
   }
 
@@ -449,5 +452,12 @@ export class CreateInvoiceComponent {
   generateRandomTwoDigitNumber(): number {
     // Generate a random number between 10 and 99 (inclusive)
     return Math.floor(Math.random() * 90) + 10;
+  }
+
+  preventEnterKey(event: KeyboardEvent) {
+    const target = event.target as HTMLElement;
+    if (event.key === 'Enter' && target.tagName !== 'BUTTON') {
+      event.preventDefault();
+    }
   }
 }

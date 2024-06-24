@@ -8,10 +8,10 @@
       <div class="print-wrap page{{ pageIndex + 1 }}">
           <h2 style='margin:0in;margin-bottom:.0001pt;text-align:left;font-size:19px;font-family:"Times New Roman","serif";'><span style='font-size:19px;font-family:"Comic Sans MS";'>C R E A T I V E</span></h2>
           <h2 style='margin:0in;margin-bottom:.0001pt;text-align:left;font-size:18px;font-family:"Times New Roman","serif";'><span style='font-family:"Comic Sans MS";'>CUTE OPTIONS, INC.</span></h2>
-          <p style='margin-top:0in;margin-right:0in;margin-bottom:.0001pt;font-size:13px;font-family:"Times New Roman","serif";font-weight:bold;'><span style="font-weight:normal;margin-right: 12rem;">9221 VANALDEN AVE</span><span>INVOICE NO: {{invoiceData?.invoiceNumber}} <span *ngIf="pageIndex > 0">(Page {{pageIndex + 1}})</span></span></p>
-          <h5 style='margin:0in;margin-bottom:.0001pt;font-size:13px;font-family:"Times New Roman","serif";'><span style="font-weight:normal;margin-right: 12rem;">NORTHRIDGE, &nbsp;CA &nbsp; 91324&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span></h5>
-          <p style='margin-top:0in;margin-right:0in;margin-bottom:.0001pt;font-size:13px;font-family:"Times New Roman","serif";font-weight:bold;'><span style="font-weight:normal;margin-right: 11.5rem;">PHONE: &nbsp;(818) 772-6070</span><span>INVOICE DATE: {{invoiceData?.invoiceDate | date: 'shortDate' }}</span></p>
-          <p style='margin:0in;margin-bottom:.0001pt;font-size:13px;font-family:"Times New Roman","serif";'><span style="font-size:15px;">FAX: &nbsp;(818) 772-8580</span></p>
+          <p style='margin-top:0in;margin-right:0in;margin-bottom:.0001pt;font-size: 9px;font-family:"Times New Roman","serif";font-weight:bold;'><span style="font-weight:normal;margin-right: 12rem;">9221 VANALDEN AVE</span><span>INVOICE NO: {{invoiceData?.invoiceNumber}} <span *ngIf="pageIndex > 0">(Page {{pageIndex + 1}})</span></span></p>
+          <h5 style='margin:0in;margin-bottom:.0001pt;font-size: 9px;font-family:"Times New Roman","serif";'><span style="font-weight:normal;margin-right: 12rem;">NORTHRIDGE, &nbsp;CA &nbsp; 91324&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span></h5>
+          <p style='margin-top:0in;margin-right:0in;margin-bottom:.0001pt;font-size: 9px;font-family:"Times New Roman","serif";font-weight:bold;'><span style="font-weight:normal;margin-right: 11.5rem;">PHONE: &nbsp;(818) 772-6070</span><span>INVOICE DATE: {{invoiceData?.invoiceDate | date: 'shortDate' }}</span></p>
+          <p style='margin:0in;margin-bottom:.0001pt;font-size: 9px;font-family:"Times New Roman","serif";'><span style="font-size:15px;">FAX: &nbsp;(818) 772-8580</span></p>
           <table class="invoice-address-table">
               <tr>
                 <td class="invoice-address-label" style="vertical-align: top;">
@@ -23,7 +23,7 @@
               </tr>
               <tr>
                 <td class="invoice-address" style="vertical-align: top;">
-                  <strong><div style="font-size: 13px;">{{invoiceData?.soldTo}}</div></strong>
+                  <strong><div style="font-size: 13px;margin-right: 0.5rem;">{{invoiceData?.soldTo}}</div></strong>
                 </td>
                 <td class="invoice-address" style="vertical-align: top;margin-left: 20px;">
                   <strong><div style="font-size: 13px;margin-right: 10px;">{{invoiceData?.shipTo}}</div></strong>
@@ -34,66 +34,64 @@
           <table style="width: 4.2e+2pt;border-collapse:collapse;border:none;">
               <tbody>
                   <tr>
-                      <td style="width: 63pt;border-width: 4.5pt 1pt 1pt 4.5pt;border-style: double solid solid double;border-color: windowtext;background: white;padding: 0in 5.4pt;height: 11pt;vertical-align: top;">
-                          <p style='margin:0in;margin-bottom:.0001pt;font-size:16px;font-family:"Times New Roman","serif";text-align:center;'><strong><span style="font-size:12px;">OUR ORDER # &nbsp;</span></strong></p>
+                      <td style="width: 63pt;border-width: 4.5pt 1pt 1pt 4.5pt;border-style: double solid solid double;border-color: windowtext;background: white;padding: 0.4pt;height: 11pt;vertical-align: top;">
+                          <p style='margin:0in;margin-bottom:.0001pt;font-size:16px;font-family:"Times New Roman","serif";text-align:center;'><strong><span style="font-size: 9px;">OUR&nbsp;ORDER&nbsp;#</span></strong></p>
                       </td>
-                      <td style="width: 3.25in;border-top: 4.5pt double windowtext;border-left: none;border-bottom: 1pt solid windowtext;border-right: 1pt solid windowtext;background: white;padding: 0in 5.4pt;height: 11pt;vertical-align: top;">
-                          <h2 style='margin:0in;margin-bottom:.0001pt;text-align:center;font-size:13px;font-family:"Times New Roman","serif";'><span style="font-size:12px;">YOUR ORDER NO.&nbsp;</span></h2>
+                      <td style="width: 3.25in;border-top: 4.5pt double windowtext;border-left: none;border-bottom: 1pt solid windowtext;border-right: 1pt solid windowtext;background: white;padding: 0.4pt;height: 11pt;vertical-align: top;">
+                          <h2 style='margin:0in;margin-bottom:.0001pt;text-align:center;font-size: 9px;font-family:"Times New Roman","serif";'><span style="font-size: 9px;">YOUR&nbsp;ORDER&nbsp;NO.&nbsp;</span></h2>
                       </td>
-                      <td style="width: 1in;border-top: 4.5pt double windowtext;border-left: none;border-bottom: 1pt solid windowtext;border-right: 1pt solid windowtext;background: white;padding: 0in 5.4pt;height: 11pt;vertical-align: top;">
-                          <p style='margin:0in;margin-bottom:.0001pt;font-size:16px;font-family:"Times New Roman","serif";text-align:center;'><strong><span style="font-size:12px;">DEPT NO.</span></strong></p>
+                      <td style="width: 1in;border-top: 4.5pt double windowtext;border-left: none;border-bottom: 1pt solid windowtext;border-right: 1pt solid windowtext;background: white;padding: 0.4pt;height: 11pt;vertical-align: top;">
+                          <p style='margin:0in;margin-bottom:.0001pt;font-size:16px;font-family:"Times New Roman","serif";text-align:center;'><strong><span style="font-size: 9px;">DEPT NO.</span></strong></p>
                       </td>
-                      <td style="width: 1in;border-top: 4.5pt double windowtext;border-left: none;border-bottom: 1pt solid windowtext;border-right: 1pt solid windowtext;background: white;padding: 0in 5.4pt;height: 11pt;vertical-align: top;">
-                          <p style='margin:0in;margin-bottom:.0001pt;font-size:16px;font-family:"Times New Roman","serif";text-align:center;'><strong><span style="font-size:12px;">SHIP&nbsp;</span></strong></p>
-                          <p style='margin:0in;margin-bottom:.0001pt;font-size:16px;font-family:"Times New Roman","serif";text-align:center;'><strong><span style="font-size:12px;">VIA&nbsp;</span></strong></p>
+                      <td style="width: 1in;border-top: 4.5pt double windowtext;border-left: none;border-bottom: 1pt solid windowtext;border-right: 1pt solid windowtext;background: white;padding: 0.4pt;height: 11pt;vertical-align: top;">
+                          <p style='margin:0in;margin-bottom:.0001pt;font-size:16px;font-family:"Times New Roman","serif";text-align:center;'><strong><span style="font-size: 9px;">SHIP&nbsp;VIA</span></strong></p>
+                          <!-- <p style='margin:0in;margin-bottom:.0001pt;font-size:16px;font-family:"Times New Roman","serif";text-align:center;'><strong><span style="font-size: 9px;">VIA&nbsp;</span></strong></p> -->
                       </td>
-                      <td style="width: 0.75in;border-top: 4.5pt double windowtext;border-left: none;border-bottom: 1pt solid windowtext;border-right: 1pt solid windowtext;background: white;padding: 0in 5.4pt;height: 11pt;vertical-align: top;">
-                          <p style='margin:0in;margin-bottom:.0001pt;font-size:16px;font-family:"Times New Roman","serif";text-align:center;'><strong><span style="font-size:12px;">TERMS</span></strong></p>
+                      <td style="width: 0.75in;border-top: 4.5pt double windowtext;border-left: none;border-bottom: 1pt solid windowtext;border-right: 1pt solid windowtext;background: white;padding: 0.4pt;height: 11pt;vertical-align: top;">
+                          <p style='margin:0in;margin-bottom:.0001pt;font-size:16px;font-family:"Times New Roman","serif";text-align:center;'><strong><span style="font-size: 9px;">TERMS</span></strong></p>
                       </td>
-                      <td style="width: 63pt;border-top: 4.5pt double windowtext;border-left: none;border-bottom: 1pt solid windowtext;border-right: 4.5pt double windowtext;background: white;padding: 0in 5.4pt;height: 11pt;vertical-align: top;">
-                          <p style='margin:0in;margin-bottom:.0001pt;font-size:16px;font-family:"Times New Roman","serif";text-align:center;'><strong><span style="font-size:12px;">SALESMAN</span></strong></p>
-                      </td>
-                  </tr>
-                  <tr>
-                      <td style="width: 63pt;border-top: none;border-left: 4.5pt double windowtext;border-bottom: 1pt solid windowtext;border-right: 1pt solid windowtext;background: white;padding: 0in 5.4pt;height: 11pt;vertical-align: top;">
-                          <p style='margin:0in;margin-bottom:.0001pt;font-size:16px;font-family:"Times New Roman","serif";text-align:center;'><span style="font-size:12px;">{{invoiceData?.orderNumber}}</span></p>
-                      </td>
-                      <td style="width: 3.25in;border-top: none;border-left: none;border-bottom: 1pt solid windowtext;border-right: 1pt solid windowtext;background: white;padding: 0in 5.4pt;height: 11pt;vertical-align: top;">
-                          <p style='margin:0in;margin-bottom:.0001pt;text-align:center;font-size:15px;font-family:"Times New Roman","serif";'><span style="font-size:12px;">{{invoiceData?.custOrderNumber}}</span></p>
-                      </td>
-                      <td style="width: 1in;border-top: none;border-left: none;border-bottom: 1pt solid windowtext;border-right: 1pt solid windowtext;background: white;padding: 0in 5.4pt;height: 11pt;vertical-align: top;">
-                          <p style='margin:0in;margin-bottom:.0001pt;font-size:16px;font-family:"Times New Roman","serif";text-align:center;'><span style="font-size:12px;">{{invoiceData?.deptNumber}}</span></p>
-                      </td>
-                      <td style="width: 1in;border-top: none;border-left: none;border-bottom: 1pt solid windowtext;border-right: 1pt solid windowtext;background: white;padding: 0in 5.4pt;height: 11pt;vertical-align: top;">
-                          <p style='margin:0in;margin-bottom:.0001pt;font-size:16px;font-family:"Times New Roman","serif";text-align:center;'><span style="font-size:12px;">{{invoiceData?.shipVia}}</span></p>
-                      </td>
-                      <td style="width: 0.75in;border-top: none;border-left: none;border-bottom: 1pt solid windowtext;border-right: 1pt solid windowtext;background: white;padding: 0in 5.4pt;height: 11pt;vertical-align: top;">
-                          <p style='margin:0in;margin-bottom:.0001pt;font-size:16px;font-family:"Times New Roman","serif";text-align:center;'><span style="font-size:12px;">{{invoiceData?.terms}}</span></p>
-                      </td>
-                      <td style="width: 63pt;border-top: none;border-left: none;border-bottom: 1pt solid windowtext;border-right: 4.5pt double windowtext;background: white;padding: 0in 5.4pt;height: 11pt;vertical-align: top;">
-                          <p style='margin:0in;margin-bottom:.0001pt;font-size:16px;font-family:"Times New Roman","serif";text-align:center;'><span style="font-size:12px;">{{invoiceData?.salesman}}</span></p>
+                      <td style="width: 63pt;border-top: 4.5pt double windowtext;border-left: none;border-bottom: 1pt solid windowtext;border-right: 4.5pt double windowtext;background: white;padding: 0.4pt;height: 11pt;vertical-align: top;">
+                          <p style='margin:0in;margin-bottom:.0001pt;font-size:16px;font-family:"Times New Roman","serif";text-align:center;'><strong><span style="font-size: 9px;">SALESMAN</span></strong></p>
                       </td>
                   </tr>
                   <tr>
                       <td style="width: 63pt;border-top: none;border-left: 4.5pt double windowtext;border-bottom: 1pt solid windowtext;border-right: 1pt solid windowtext;background: white;padding: 0in 5.4pt;height: 11pt;vertical-align: top;">
-                          <p style='margin:0in;margin-bottom:.0001pt;font-size:16px;font-family:"Times New Roman","serif";text-align:center;'><strong><span style="font-size:13px;">STYLE #</span></strong></p>
+                          <p style='margin:0in;margin-bottom:.0001pt;font-size:16px;font-family:"Times New Roman","serif";text-align:center;'><span style="font-size: 9px;">{{invoiceData?.orderNumber}}</span></p>
                       </td>
                       <td style="width: 3.25in;border-top: none;border-left: none;border-bottom: 1pt solid windowtext;border-right: 1pt solid windowtext;background: white;padding: 0in 5.4pt;height: 11pt;vertical-align: top;">
-                          <h2 style='margin:0in;margin-bottom:.0001pt;text-align:center;font-size:13px;font-family:"Times New Roman","serif";'><span style="font-size:13px;">DESCRIPTION</span></h2>
+                          <p style='margin:0in;margin-bottom:.0001pt;text-align:center;font-size:15px;font-family:"Times New Roman","serif";'><span style="font-size: 9px;">{{invoiceData?.custOrderNumber}}</span></p>
                       </td>
                       <td style="width: 1in;border-top: none;border-left: none;border-bottom: 1pt solid windowtext;border-right: 1pt solid windowtext;background: white;padding: 0in 5.4pt;height: 11pt;vertical-align: top;">
-                          <p style='margin:0in;margin-bottom:.0001pt;text-align:center;font-size:12px;font-family:"Times New Roman","serif";font-weight:bold;'><span style="font-size:13px;">QTY&nbsp;</span></p>
-                          <p style='margin:0in;margin-bottom:.0001pt;font-size:16px;font-family:"Times New Roman","serif";text-align:center;'><strong><span style="font-size:13px;">ORDERED</span></strong></p>
+                          <p style='margin:0in;margin-bottom:.0001pt;font-size:16px;font-family:"Times New Roman","serif";text-align:center;'><span style="font-size: 9px;">{{invoiceData?.deptNumber}}</span></p>
                       </td>
                       <td style="width: 1in;border-top: none;border-left: none;border-bottom: 1pt solid windowtext;border-right: 1pt solid windowtext;background: white;padding: 0in 5.4pt;height: 11pt;vertical-align: top;">
-                          <p style='margin:0in;margin-bottom:.0001pt;font-size:16px;font-family:"Times New Roman","serif";text-align:center;'><strong><span style="font-size:13px;">QTY&nbsp;</span></strong></p>
-                          <p style='margin:0in;margin-bottom:.0001pt;font-size:16px;font-family:"Times New Roman","serif";text-align:center;'><strong><span style="font-size:13px;">SHIPPED</span></strong></p>
+                          <p style='margin:0in;margin-bottom:.0001pt;font-size:16px;font-family:"Times New Roman","serif";text-align:center;'><span style="font-size: 9px;">{{invoiceData?.shipVia}}</span></p>
                       </td>
                       <td style="width: 0.75in;border-top: none;border-left: none;border-bottom: 1pt solid windowtext;border-right: 1pt solid windowtext;background: white;padding: 0in 5.4pt;height: 11pt;vertical-align: top;">
-                          <p style='margin:0in;margin-bottom:.0001pt;font-size:16px;font-family:"Times New Roman","serif";text-align:center;'><strong><span style="font-size:13px;">UNIT PRICE</span></strong></p>
+                          <p style='margin:0in;margin-bottom:.0001pt;font-size:16px;font-family:"Times New Roman","serif";text-align:center;'><span style="font-size: 9px;">{{invoiceData?.terms}}</span></p>
                       </td>
                       <td style="width: 63pt;border-top: none;border-left: none;border-bottom: 1pt solid windowtext;border-right: 4.5pt double windowtext;background: white;padding: 0in 5.4pt;height: 11pt;vertical-align: top;">
-                          <p style='margin:0in;margin-bottom:.0001pt;font-size:16px;font-family:"Times New Roman","serif";text-align:center;'><strong><span style="font-size:13px;">AMOUNT</span></strong></p>
+                          <p style='margin:0in;margin-bottom:.0001pt;font-size:16px;font-family:"Times New Roman","serif";text-align:center;'><span style="font-size: 9px;">{{invoiceData?.salesman}}</span></p>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td style="width: 63pt;border-top: none;border-left: 4.5pt double windowtext;border-bottom: 1pt solid windowtext;border-right: 1pt solid windowtext;background: white;padding: 0in 5.4pt;height: 11pt;vertical-align: top;">
+                          <p style='margin:0in;margin-bottom:.0001pt;font-size:16px;font-family:"Times New Roman","serif";text-align:center;'><strong><span style="font-size: 9px;">STYLE&nbsp;#</span></strong></p>
+                      </td>
+                      <td style="width: 3.25in;border-top: none;border-left: none;border-bottom: 1pt solid windowtext;border-right: 1pt solid windowtext;background: white;padding: 0in 5.4pt;height: 11pt;vertical-align: top;">
+                          <h2 style='margin:0in;margin-bottom:.0001pt;text-align:center;font-size: 9px;font-family:"Times New Roman","serif";'><span style="font-size: 9px;">DESCRIPTION&nbsp;&nbsp;&nbsp;&nbsp;</span></h2>
+                      </td>
+                      <td style="width: 1in;border-top: none;border-left: none;border-bottom: 1pt solid windowtext;border-right: 1pt solid windowtext;background: white;padding: 0in 5.4pt;height: 11pt;vertical-align: top;">
+                          <p style='margin:0in;margin-bottom:.0001pt;text-align:center;font-size: 9px;font-family:"Times New Roman","serif";font-weight:bold;'><span style="font-size: 9px;">QTY&nbsp;ORDERED</span></p>
+                      </td>
+                      <td style="width: 1in;border-top: none;border-left: none;border-bottom: 1pt solid windowtext;border-right: 1pt solid windowtext;background: white;padding: 0in 5.4pt;height: 11pt;vertical-align: top;">
+                          <p style='margin:0in;margin-bottom:.0001pt;font-size:16px;font-family:"Times New Roman","serif";text-align:center;'><strong><span style="font-size: 9px;">QTY&nbsp;SHIPPED</span></strong></p>
+                      </td>
+                      <td style="width: 0.75in;border-top: none;border-left: none;border-bottom: 1pt solid windowtext;border-right: 1pt solid windowtext;background: white;padding: 0in 5.4pt;height: 11pt;vertical-align: top;">
+                          <p style='margin:0in;margin-bottom:.0001pt;font-size:16px;font-family:"Times New Roman","serif";text-align:center;'><strong><span style="font-size: 9px;">UNIT&nbsp;PRICE</span></strong></p>
+                      </td>
+                      <td style="width: 63pt;border-top: none;border-left: none;border-bottom: 1pt solid windowtext;border-right: 4.5pt double windowtext;background: white;padding: 0in 5.4pt;height: 11pt;vertical-align: top;">
+                          <p style='margin:0in;margin-bottom:.0001pt;font-size:16px;font-family:"Times New Roman","serif";text-align:center;'><strong><span style="font-size: 9px;">AMOUNT</span></strong></p>
                       </td>
                   </tr>
                   <tr *ngFor="let row of getRecordsForPage(pageIndex + 1)">
@@ -141,7 +139,7 @@
                           <p style='margin:0in;margin-bottom:.0001pt;font-size:14px;font-family:"Times New Roman","serif";text-align:center;'><strong>&nbsp;</strong></p>
                       </td>
                       <td style="width: 3.25in;border-top: none;border-left: none;border-bottom: 1pt solid windowtext;border-right: 1pt solid windowtext;padding: 0in 5.4pt;height: 11pt;vertical-align: top;">
-                          <p style='margin:0in;margin-bottom:.0001pt;font-size:14px;font-family:"Times New Roman","serif";text-align:center;'><strong>{{invoiceData?.taxDesc}}</strong></p>
+                          <p style='margin:0in;margin-bottom:.0001pt;font-size:14px;font-family:"Times New Roman","serif";text-align:center;'><strong>{{invoiceData?.taxDescription}}</strong></p>
                       </td>
                       <td style="width: 1in;border-top: none;border-left: none;border-bottom: 1pt solid windowtext;border-right: 1pt solid windowtext;padding: 0in 5.4pt;height: 11pt;vertical-align: top;">
                           <p style='margin:0in;margin-bottom:.0001pt;font-size:14px;font-family:"Times New Roman","serif";text-align:center;'><strong>&nbsp;</strong></p>
@@ -160,16 +158,16 @@
                  
                   <tr>
                       <td colspan="3" style="width: 369pt;border-top: none;border-left: 4.5pt double windowtext;border-bottom: 4.5pt double windowtext;border-right: 1pt solid windowtext;padding: 0in 5.4pt;height: 11pt;vertical-align: top;">
-                          <h4 style='margin:0in;margin-bottom:.0001pt;font-size:13px;font-family:"Times New Roman","serif";text-align:center;'><u><span style='font-size:13px;font-family:"Comic Sans MS";font-weight:normal;'>SPECIAL INSTRUCTIONS:</span></u><span style='font-size:14px;font-family:"Comic Sans MS";'>&nbsp;&nbsp;&nbsp;&nbsp;</span><br><span style='font-size:13px;font-family:"Comic Sans MS";'>MAKE CHECKS PAYABLE : &nbsp; &nbsp; &nbsp;&nbsp;</span><span style='font-size:13px;font-family:"Comic Sans MS";font-weight:normal;'>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span><span style='font-size:13px;font-family:"Comic Sans MS";'>CREATIVE CUTE &nbsp;OPTIONS ONLY!!!!!</span></h4>
+                          <h4 style='margin:0in;margin-bottom:.0001pt;font-size: 9px;font-family:"Times New Roman","serif";text-align:center;'><u><span style='font-size: 9px;font-family:"Comic Sans MS";font-weight:normal;'>SPECIAL INSTRUCTIONS:</span></u><span style='font-size:14px;font-family:"Comic Sans MS";'>&nbsp;&nbsp;&nbsp;&nbsp;</span><br><span style='font-size: 9px;font-family:"Comic Sans MS";'>MAKE CHECKS PAYABLE : &nbsp; &nbsp; &nbsp;&nbsp;</span><span style='font-size: 9px;font-family:"Comic Sans MS";font-weight:normal;'>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span><span style='font-size: 9px;font-family:"Comic Sans MS";'>CREATIVE CUTE &nbsp;OPTIONS ONLY!!!!!</span></h4>
                       </td>
                       <td style="width: 1in;border-top: none;border-left: none;border-bottom: 4.5pt double windowtext;border-right: 1pt solid windowtext;padding: 0in 5.4pt;height: 11pt;vertical-align: top;">
-                          <h4 style='margin:0in;margin-bottom:.0001pt;font-size:13px;font-family:"Times New Roman","serif";text-align:center;'><span style="font-size:13px;">BOXES</span></h4>
+                          <h4 style='margin:0in;margin-bottom:.0001pt;font-size: 9px;font-family:"Times New Roman","serif";text-align:center;'><span style="font-size: 9px;">BOXES</span></h4>
                           <p *ngIf="shouldShowBoxes(pageIndex)" style='margin:0in;margin-bottom:.0001pt;font-size:14px;font-family:"Times New Roman","serif";text-align:center;'>{{invoiceData?.boxes}}</p>
                           <p *ngIf="!shouldShowBoxes(pageIndex)" style='margin:0in;margin-bottom:.0001pt;font-size:14px;font-family:"Times New Roman","serif";text-align:center;'></p>
   
                       </td>
                       <td style="width: 0.75in;border-top: none;border-left: none;border-bottom: 4.5pt double windowtext;border-right: 1pt solid windowtext;padding: 0in 5.4pt;height: 11pt;vertical-align: top;">
-                          <h6 style='margin:0in;margin-bottom:.0001pt;text-align:center;font-size:13px;font-family:"Times New Roman","serif";'><span style="font-size:13px;">TOTAL</span></h6>
+                          <h6 style='margin:0in;margin-bottom:.0001pt;text-align:center;font-size: 9px;font-family:"Times New Roman","serif";'><span style="font-size: 9px;">TOTAL</span></h6>
                       </td>
                       <td style="width: 63pt;border-top: none;border-left: none;border-bottom: 4.5pt double windowtext;border-right: 4.5pt double windowtext;padding: 0in 5.4pt;height: 11pt;vertical-align: top;">
                           <p *ngIf="shouldShowBoxes(pageIndex)" style='margin:0in;margin-bottom:.0001pt;font-size:14px;font-family:"Times New Roman","serif";text-align:left;'><strong>{{invoiceData?.totalAfterTax | currency:'USD':'symbol':'1.2-2'}}</strong></p>
@@ -191,7 +189,7 @@
       </div>
     </ng-container>
 
-<button mat-raised-button color="primary" class="print-button-style" [disabled]="isGenerating" (click)="generatePDFPrint()">{{ isGenerating ? 'Generating...' : 'Save as PDF' }}</button>
+<button mat-raised-button color="primary" class="print-button-style" [disabled]="isGenerating" (click)="printPage()">{{ isGenerating ? 'Generating...' : 'Download' }}</button>
 <!-- <button mat-raised-button color="primary" class="print-button-style" (click)="openPDF()">Save as PDF</button> -->
 </mat-card-content>
 <mat-card-content *ngIf="!invoiceData">

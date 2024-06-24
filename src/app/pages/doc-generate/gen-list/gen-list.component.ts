@@ -276,6 +276,7 @@ export class GenListComponent implements OnInit{
         },
         error: (error) => {
           console.log('Error',error);
+          this.getInvoiceData();
         }
       }
     );

@@ -6,6 +6,7 @@ import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import html2PDF from 'html2canvas';
 import jspdf from 'jspdf';
+import { DocGenService } from '../services/doc-gen.service';
 
 @Component({
   selector: 'app-invoice-preview',
@@ -32,7 +33,8 @@ export class InvoicePreviewComponent implements OnInit{
     
   constructor(private location: Location, 
     private route: ActivatedRoute,
-    private invoiceService: InvoiceServiceService ) {}
+    private invoiceService: InvoiceServiceService,
+    private docGenService: DocGenService ) {}
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
@@ -79,6 +81,7 @@ export class InvoicePreviewComponent implements OnInit{
       frieightDescription: 'Shipping',
       totalPreTax: 300,
       totalAfterTax: 330,
+      specialInstructions: "MAKE CHECKS PAYABLE : CREATIVE CUTE  OPTIONS ONLY!!!!!",
       invoiceLineItems: [
         {
           id: 1,
@@ -112,8 +115,10 @@ export class InvoicePreviewComponent implements OnInit{
   printPage(){
     // this.isDisplayed = true;
     // window.print();
-    this.openPDF();
+    // this.openPDF();
     // this.isDisplayed = false;
+    const formattedData = this.formatData(JSON.parse(JSON.stringify(this.invoiceData)));
+    this.docGenService.generateDoc(formattedData);
   }
 
   ngAfterContentInit(): void{
@@ -265,5 +270,50 @@ export class InvoicePreviewComponent implements OnInit{
 
   createRange(number: number): number[] {
     return new Array(number).fill(0).map((_, i) => i);
+  }
+
+
+  formatData(data:any){
+    const taxAmount = data.totalAfterTax - data.totalPreTax;
+    data.totalPreTax = this.formatCurrency(data.totalPreTax);
+    data.totalAfterTax = this.formatCurrency(data.totalAfterTax);
+    // Format amounts in invoiceLineItems
+    data.invoiceLineItems.forEach((item: any) => {
+      item.amount = this.formatCurrency(item.amount);
+
+      if (item.description === null) {
+        item.description = '';
+      }
+      if (item.styleNumber === null) {
+        item.description = '';
+      }
+    });
+
+
+    if (data.specialInstructions === null) {
+      data.specialInstructions = 'MAKE CHECKS PAYABLE : CREATIVE CUTE  OPTIONS ONLY!!!!!';
+    }
+    if (data.taxRequired === false) {
+      data.taxDescription = '';
+      data.taxAmount = '';
+      data.taxPercent = '';
+    }else {
+      if (data.taxDescription === null) {
+        data.taxDescription = '';
+      }
+      if (data.taxAmount === null) {
+        data.taxAmount = '';
+      }
+      data.taxAmount = taxAmount === 0 ? '' : this.formatCurrency(taxAmount);
+    }
+    if(data.frieghtCharges === null){
+      data.frieghtCharges = '';
+      data.frieightDescription = '';
+    }
+    return data;
+  }
+
+  private formatCurrency(amount: number): string {
+    return `$${amount.toFixed(2)}`;
   }
 }
